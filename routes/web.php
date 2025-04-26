@@ -48,6 +48,19 @@ Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPas
     //---Dashboard routes
     Route::get('user/dashboard', [DashboardController::class,'userDashboard'])->middleware('auth')
     ->name('user-dashboard');
+    Route::get('user/application/stage1', [DashboardController::class,'stage1'])->middleware('auth')
+    ->name('stage1');
+    Route::get('/user/application/stage1/{id}/edit', [UserController::class, 'edit'])
+    ->name('user.edit');
+    Route::put('/user/application/updateStage1', [UserController::class, 'updateStage1'])
+    ->name('user.updateStage1');
+    Route::get('user/application/stage2', [DashboardController::class,'stage2'])->middleware('auth')
+    ->name('stage2');
+    Route::get('user/application/stage3', [DashboardController::class,'stage3'])->middleware('auth')
+    ->name('stage3');
+    Route::get('user/application/stage4', [DashboardController::class,'stage4'])->middleware('auth')
+    ->name('stage4');
+
 
 
     //----send mail route

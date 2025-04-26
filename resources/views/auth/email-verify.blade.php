@@ -50,16 +50,17 @@
 						</div>
             else
 						@endif
-                        <form action="{{ route('resend-verification') }}" method="POST">
-          @csrf
+                        <form action="{{ route('resend-verification-email') }}">
+          <!-- @csrf -->
             <div>
-              <div>                
-                <h3>Please verify your email</h3>                
-                <p>Your email address <strong>({{ auth()->user()->email }})</strong> has not been verified, click on the button below to send email verification link.</p>
+            <div>                
+                <h3>Please verify your email</h3>
+                <h4><u>{{ $email }}</u> </h4>
+                <p>{{ $message }}</p>
               </div> 
               <div class="button input-box">
                 <input type="hidden" name="email" value="{{ auth()->user()->email }}">
-                <input type="submit" class="form-control btn btn-primary rounded submit px-3" value="Verify Email">
+                <input type="submit" class="form-control btn btn-primary rounded submit px-3" value="Didn't see it? Resend">
               </div>              
             </div>
         </form>

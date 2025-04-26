@@ -17,17 +17,17 @@ return new class extends Migration
             $table->string('first_name', 60)->nullable();
             $table->string('other_name', 60)->nullable();
             $table->string('mobile_no', 30);
-            $table->integer('user_status', 5);
-            $table->integer('user_type', 5);
-            $table->integer('login_attempts', 5);
-            $table->integer('email_verified_status', 5);
+            $table->integer('user_status')->nullable();
+            $table->integer('user_type')->nullable();
+            $table->integer('login_attempts')->nullable();
+            $table->integer('email_verified_status')->nullable();
             $table->string('email')->unique();
             $table->string('address', 100)->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->default('other')->nullable();
             $table->date('dob')->nullable();
             $table->string('mobile_no1', 15)->nullable();
             $table->string('interest')->nullable();
-            $table->smallInteger('current_stage')->unsigned()->nullable(); // Adjusted type
+            $table->unsignedInteger('current_stage')->nullable(); // Correct unsigned integer
             $table->string('instagram', 60)->nullable();
             $table->string('facebook', 60)->nullable();
             $table->string('twitter', 60)->nullable();
@@ -37,7 +37,7 @@ return new class extends Migration
             $table->text('qst2')->nullable();
             $table->text('qst3')->nullable();
             $table->text('if_yes_qst2')->nullable();
-            $table->string('image', 255)->nullable(); // Adjusted length for file paths
+            $table->string('image', 255)->nullable();
             $table->date('reg_date');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

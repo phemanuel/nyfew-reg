@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use App\Models\Application;
 
 use Illuminate\Http\Request;
 
@@ -54,9 +55,17 @@ class AuthController extends Controller
                 'remember_token' => $email_token,                             
                 'image' => 'blank.jpg',
                 'user_status' => 1,
-                'user_type' => 'User',
+                'current_stage' => 1,
+                'user_type' => 2,
                 'login_attempts' => 0,
                 'reg_date' => now(),
+            ]);
+
+            Application::create([
+                'user_id' => $user->id,
+                'status' => 'Not Approved',
+                'comment' => 'Not Completed',
+                'stage' => 1,
             ]);
 
             $email_message = "We have sent instructions to verify your email, kindly follow instructions to continue, 

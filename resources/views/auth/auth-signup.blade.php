@@ -64,7 +64,7 @@
                     @enderror
                           <div class="form-group mb-3">
 			      			<label class="label" for="name">Phone No</label>
-			      			<input type="number" name="phone_no" class="form-control" placeholder="Email Address" value="{{ old('email') }}" required>
+			      			<input type="number" name="phone_no" class="form-control" placeholder="Phone No" value="{{ old('email') }}" required>
 			      		</div>
                           @error('phone_no')
                         <div class="invalid-feedback d-block">

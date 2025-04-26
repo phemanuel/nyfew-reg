@@ -97,7 +97,7 @@ class MailController extends Controller
             } else {
                 // Flash an error message for invalid email
                 Session::flash('error', 'Email not found. Please check your email address and try again.');
-                return redirect('login');
+                return redirect('signin');
             }
         } catch (Exception $e) {
             // Log the error
@@ -133,7 +133,7 @@ class MailController extends Controller
             } else {
                 // Flash an error message for invalid email
                 Session::flash('error', 'Email not found. Please check your email address and try again.');
-                return redirect('login');
+                return redirect('signin');
             }
         } catch (Exception $e) {
             // Log the error
@@ -157,7 +157,7 @@ class MailController extends Controller
 
                 // Flash a success message and redirect
                 Session::flash('success', 'Email has been verified. You can now login to complete your profile.');
-                return redirect('login');
+                return redirect('signin');
             } else {
                 // Flash an error message for invalid token
                 Session::flash('error', 'Invalid verification token. Please click on the button below to resend the verification link.');
