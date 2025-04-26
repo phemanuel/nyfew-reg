@@ -42,6 +42,12 @@ Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPas
     ->name('signup');
     Route::post('signup', [AuthController::class,'signupAction'])
     ->name('signup.action');
+    Route::get('logout', [AuthController::class, 'logout'])->middleware('auth')
+    ->name('logout');
+
+    //---Dashboard routes
+    Route::get('user/dashboard', [DashboardController::class,'userDashboard'])->middleware('auth')
+    ->name('user-dashboard');
 
 
     //----send mail route

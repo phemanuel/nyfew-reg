@@ -117,10 +117,10 @@ class AuthController extends Controller
                 $request->session()->regenerate(); 
                 // $intendedUrl = session('url.intended', '/');
                 // return redirect()->intended($intendedUrl);
-                //return redirect()->route('home');
-                return response()->json([
-                    'status' => 'logged in',
-                ]);
+                return redirect()->route('user-dashboard');
+                // return response()->json([
+                //     'status' => 'logged in',
+                // ]);
             } else {                    
                 // Email is not verified, return a flash message
                 //Auth::logout(); // Log the user out since the email is not verified                    
@@ -137,6 +137,17 @@ class AuthController extends Controller
             Log::error('Error during login: ' . $e->getMessage());
             return redirect()->route('signin');
         }    
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+
+
     }
 
 
