@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('first_name', 60)->nullable();
             $table->string('other_name', 60)->nullable();
             $table->string('mobile_no', 30);
+            $table->integer('user_status', 5);
+            $table->integer('user_type', 5);
+            $table->integer('login_attempts', 5);
+            $table->integer('email_verified_status', 5);
             $table->string('email')->unique();
             $table->string('address', 100)->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->default('other')->nullable();

@@ -47,7 +47,7 @@ class MailController extends Controller
             // Error handling: Handle the error and display an error message
             session()->flash('error', 'An error occurred while sending the email.');
 
-            return redirect('login');
+            return redirect('signin');
         }
     }
 

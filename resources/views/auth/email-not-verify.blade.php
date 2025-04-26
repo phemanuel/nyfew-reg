@@ -30,7 +30,7 @@
 						<div class="login-wrap p-4 p-md-5">
 			      	<div class="d-flex">
 			      		<div class="w-100">
-			      			<h5 class="mb-4"><strong>Reset Password</strong> </h5>
+			      			<h5 class="mb-4"><strong>Email Verification</strong> </h5>
 			      		</div>
 								<div class="w-100">
 									<p class="social-media d-flex justify-content-end">
@@ -50,37 +50,20 @@
 						</div>
             else
 						@endif
-                        @if(auth()->guest())
-							<form action="{{ route('password.email') }}" class="signin-form" method="POST">
-                                @csrf
-			      		<div class="form-group mb-3">
-			      			<label class="label" for="name">Email</label>
-			      			<input type="email" name="email" class="form-control" placeholder="Email Address" value="{{ old('email') }}" required>
-			      		</div>
-                          @error('email')
-									<span class="invalid-feedback">{{ $message }}</span>
-									@enderror
-		            
-		            <div class="form-group">
-		            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">Send Password Reset Link</button>
-		            </div>
-                    
-                    <div class="form-group d-md-flex">
-		            	<div class="w-50 text-left">
-			            	<!-- <label class="checkbox-wrap checkbox-primary mb-0">Remember Me
-									  <input type="checkbox" checked>
-									  <span class="checkmark"></span>
-										</label> -->
-									</div>
-									<div class="w-50 text-md-right">
-										<!-- <a href="{{ route('password.request') }}">Forgot Password</a> -->
-									</div>
-		            </div>
-		          </form>
-                  @else
-    <p>You are already logged in. You cannot reset your password while logged in.</p>
-@endif
-		          <p class="text-center">Already have an account? <a  href="{{route('signin')}}">Sign In</a></p>
+                        <form action="{{ route('resend-verification') }}" method="POST">
+          @csrf
+            <div>
+              <div>                
+                <h3>Please verify your email</h3>                
+                <p>Your email address <strong>({{ auth()->user()->email }})</strong> has not been verified, click on the button below to send email verification link.</p>
+              </div> 
+              <div class="button input-box">
+                <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+                <input type="submit" class="form-control btn btn-primary rounded submit px-3" value="Verify Email">
+              </div>              
+            </div>
+        </form>
+		<p class="text-center">Don't have an account? <a  href="{{route('signup')}}">Sign Up</a></p>
 		        </div>
 		      </div>
 				</div>

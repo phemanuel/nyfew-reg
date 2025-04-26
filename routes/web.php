@@ -32,17 +32,41 @@ Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPas
     ->middleware('guest')
     ->name('password.update');
 
-Route::controller(AuthController::class)->group(function () {
-        //----Login routes    
-        Route::get('/', 'home')->name('home');  
-        // Route::get('login', 'login')->name('login');
-        Route::post('login/store','loginAction')->name('login.action');
-        Route::get('signup', 'signup')->name('signup');
-        Route::post('signup','signupAction')->name('signup.action');
-        //--------------
+// -----Login Routes
+    Route::get('/', [AuthController::class, 'home'])->name('home');
+    Route::get('/signin', [AuthController::class, 'signin'])
+    ->name('signin');
+    Route::post('signin/store',[AuthController::class, 'signinAction'])
+    ->name('signin.action');
+    Route::get('signup', [AuthController::class, 'signup'])
+    ->name('signup');
+    Route::post('signup', [AuthController::class,'signupAction'])
+    ->name('signup.action');
+
+
+    //----send mail route
+    Route::get('send-mail', [MailController::class, 'index'])
+    ->name('send-mail');    
+    Route::get('subscribe-newsletter', [MailController::class, 'subscribeNewsletter'])
+    ->name('subscribe-newsletter');
+
+    //===========Verify email address routes================================
+    Route::get('email-verify', [MailController::class, 'emailVerify'])
+    ->name('email-verify');
+    Route::get('email-verify-done/{token}', [MailController::class, 'emailVerifyDone'])
+    ->name('email-verify-done');
+    Route::get('resend-verification-email', [MailController::class, 'resendEmailVerification'])
+    ->name('resend-verification-email');
+    Route::post('resend-verification', [MailController::class, 'resendVerification'])
+    ->name('resend-verification');
+    Route::post('email-not-verify', [MailController::class, 'emailNotVerify'])
+    ->name('email-not-verify');
+
+    Route::get('/test-email', function () {
+        // Pass some data to the TestMail
+        $data = ['key' => 'value'];  // Ensure this data is correctly passed
+        
+        \Illuminate\Support\Facades\Mail::to('test@example.com')->send(new \App\Mail\TestMail($data));
+    
+        return 'Email Sent!';
     });
-    Route::get('/signin', [AuthController::class, 'signin'])->name('signin');
-   
-// Route::get('/', function () {
-//     return view('welcome');
-// });

@@ -14,21 +14,24 @@ class CustomForgotPasswordController extends Controller
         if (Auth::check()) {
             // User is already logged in, handle it accordingly
             return redirect()->route('dashboard'); // Redirect to the dashboard or another page
-        }
+        }        
         
         $request->validate([
             'email' => 'required|email'
         ]);
+    
         $status = Password::sendResetLink($request->only('email'));
-        if ($status == Password::RESET_LINK_SENT) {
+    
+        if ($status === Password::RESET_LINK_SENT) {
             return back()->with(['success' => __($status)]);
-            //session()->flash('success', 'Reset password link has been sent to the registered email address.');
         }
-        
+    
+        if ($status === Password::RESET_THROTTLED) {
+            return back()->with('error', 'You have requested too many password resets. Please try again later.');
+        }
+    
         return back()->withErrors(['email' => __($status)]);
-        // return response()->json([
-        //     'status' => 'success',
-        // ]);
+       
     }
     
     public function resetPassword(Request $request)

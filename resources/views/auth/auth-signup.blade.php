@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>NYFEW :: Login</title>
+  	<title>NYFEW :: Signup</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -14,8 +14,8 @@
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"> -->
     <style>
         .ftco-section {
-    padding-top: 50px !important;
-    padding-bottom: 10px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
 }
     </style>
 	</head>
@@ -31,7 +31,7 @@
 						<div class="login-wrap p-4 p-md-5">
 			      	<div class="d-flex">
 			      		<div class="w-100">
-			      			<h5 class="mb-4"><strong>Sign In</strong> </h5>
+			      			<h5 class="mb-4"><strong>Sign Up</strong> </h5>
 			      		</div>
 								<div class="w-100">
 									<p class="social-media d-flex justify-content-end">
@@ -51,31 +51,49 @@
 						</div>
             else
 						@endif
-							<form action="{{ route('signin.action') }}" class="signin-form" method="POST">
+							<form action="{{ route('signup.action') }}" class="signin-form" method="POST">
                                 @csrf
 			      		<div class="form-group mb-3">
 			      			<label class="label" for="name">Email</label>
-			      			<input type="email" name="email" class="form-control" placeholder="Email Address" value="{{ old('email') }}" required>
+			      			<input type="email" name = "email" class="form-control" placeholder="Email Address" value="{{ old('email') }}" required>
 			      		</div>
                           @error('email')
-                                <div class="invalid-feedback d-block">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                          <div class="form-group mb-3 position-relative">
-                                <label class="label" for="password">Password</label>
-                                <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required>
-                                <span class="position-absolute" onclick="togglePassword('password', this)" style="top: 38px; right: 15px; cursor: pointer;">
-                                    <i class="fa fa-eye"></i>
-                                </span>
-                            </div>
-                            @error('password')
-                                <div class="invalid-feedback d-block">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        <div class="invalid-feedback d-block">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                          <div class="form-group mb-3">
+			      			<label class="label" for="name">Phone No</label>
+			      			<input type="number" name="phone_no" class="form-control" placeholder="Email Address" value="{{ old('email') }}" required>
+			      		</div>
+                          @error('phone_no')
+                        <div class="invalid-feedback d-block">
+                            {{ $message }}
+                        </div>
+                    @enderror
+		            <div class="form-group mb-3 position-relative">
+                        <label class="label" for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required>
+                        <span class="position-absolute" onclick="togglePassword('password', this)" style="top: 38px; right: 15px; cursor: pointer;">
+                            <i class="fa fa-eye"></i>
+                        </span>
+                    </div>
+                    @error('password')
+                        <div class="invalid-feedback d-block">
+                            {{ $message }}
+                        </div>
+                    @enderror
+
+                    <div class="form-group mb-3 position-relative">
+                        <label class="label" for="password_confirmation">Confirm Password</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Re-enter password" required>
+                        <span class="position-absolute" onclick="togglePassword('password_confirmation', this)" style="top: 38px; right: 15px; cursor: pointer;">
+                            <i class="fa fa-eye"></i>
+                        </span>
+                    </div>
+                    
 		            <div class="form-group">
-		            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign In</button>
+		            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign Up</button>
 		            </div>
 		            <div class="form-group d-md-flex">
 		            	<div class="w-50 text-left">
@@ -89,7 +107,7 @@
 									</div>
 		            </div>
 		          </form>
-		          <p class="text-center">Don't have an account? <a  href="{{route('signup')}}">Sign Up</a></p>
+                  <p class="text-center">Already have an account? <a  href="{{route('signin')}}">Sign In</a></p>
 		        </div>
 		      </div>
 				</div>
@@ -119,7 +137,6 @@
         }
     }
 </script>
-
 	</body>
 </html>
 
