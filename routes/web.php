@@ -50,16 +50,25 @@ Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPas
     ->name('user-dashboard');
     Route::get('user/application/stage1', [DashboardController::class,'stage1'])->middleware('auth')
     ->name('stage1');
-    Route::get('/user/application/stage1/{id}/edit', [UserController::class, 'edit'])
+    Route::get('/user/application/stage1/{id}/edit', [DashboardController::class, 'edit'])
     ->name('user.edit');
-    Route::put('/user/application/updateStage1', [UserController::class, 'updateStage1'])
-    ->name('user.updateStage1');
+    Route::put('/user/application/updateStage1/{id}', [DashboardController::class, 'updateStage1'])
+    ->middleware('auth')
+    ->name('user.updateStage1'); 
     Route::get('user/application/stage2', [DashboardController::class,'stage2'])->middleware('auth')
-    ->name('stage2');
+    ->name('stage2');   
+    Route::get('user/application/updateStage2', [DashboardController::class,'stage2'])->middleware('auth')
+    ->name('user.updateStage2');
     Route::get('user/application/stage3', [DashboardController::class,'stage3'])->middleware('auth')
     ->name('stage3');
+    Route::get('user/application/updateStage3', [DashboardController::class,'stage3'])->middleware('auth')
+    ->name('user.updateStage3');
     Route::get('user/application/stage4', [DashboardController::class,'stage4'])->middleware('auth')
     ->name('stage4');
+    Route::get('user/application/updateStage4', [DashboardController::class,'stage4'])->middleware('auth')
+    ->name('user.updateStage4');
+    
+   
 
 
 
