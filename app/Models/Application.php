@@ -18,4 +18,10 @@ class Application extends Model
         'content',
         'file_size',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
 }

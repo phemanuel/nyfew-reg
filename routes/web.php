@@ -48,14 +48,14 @@ Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPas
     //---Dashboard routes
     Route::get('user/dashboard', [DashboardController::class,'userDashboard'])->middleware('auth')
     ->name('user-dashboard');
-    Route::get('user/application/stage1', [DashboardController::class,'stage1'])->middleware('auth')
+    Route::get('user/application/stage1/{id}', [DashboardController::class,'edit'])->middleware('auth')
     ->name('stage1');
-    Route::get('/user/application/stage1/{id}/edit', [DashboardController::class, 'edit'])
+    Route::get('/user/application/stage1/{id}/edit', [DashboardController::class, 'edit'])->middleware('auth')
     ->name('user.edit');
     Route::put('/user/application/updateStage1/{id}', [DashboardController::class, 'updateStage1'])
     ->middleware('auth')
     ->name('user.updateStage1'); 
-    Route::get('user/application/stage2', [DashboardController::class,'stage2'])->middleware('auth')
+    Route::get('user/application/stage2', [DashboardController::class,'stage2Edit'])->middleware('auth')
     ->name('stage2');   
     Route::get('user/application/updateStage2', [DashboardController::class,'stage2'])->middleware('auth')
     ->name('user.updateStage2');
@@ -90,11 +90,4 @@ Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPas
     Route::post('email-not-verify', [MailController::class, 'emailNotVerify'])
     ->name('email-not-verify');
 
-    Route::get('/test-email', function () {
-        // Pass some data to the TestMail
-        $data = ['key' => 'value'];  // Ensure this data is correctly passed
-        
-        \Illuminate\Support\Facades\Mail::to('test@example.com')->send(new \App\Mail\TestMail($data));
     
-        return 'Email Sent!';
-    });

@@ -395,7 +395,7 @@
               <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="content-block">
-                    <span class="apple-link">Kings Branding Consult.</span>                    
+                    <span class="apple-link">#projectMakeMe</span>                    
                   </td>
                 </tr>
                 

@@ -224,7 +224,7 @@
             </div>
 
             <!-- Accommodation -->
-            <div class="row mb-3">
+            <!-- <div class="row mb-3">
                 <div class="col-md-12">
                     <label for="qst3" class="form-label">Do you want accommodation?</label>
                     <select class="form-control" id="qst3" name="qst3" required>                        
@@ -235,14 +235,14 @@
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
-            </div>
+            </div> -->
 
-            <div class="row mb-3">
+            <!-- <div class="row mb-3">
                 <div class="col-md-12">
                     <label class="form-label">If Yes</label>
                     <p><strong>N.B:</strong> Accommodation for 7 DAYS costs ₦20,000.</p>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Profile Image -->
             <div class="row mb-3">

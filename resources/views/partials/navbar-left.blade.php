@@ -187,24 +187,24 @@
             </li>
             <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-apps"></i><span>Applications</span></a>
                 <ul class="ml-menu">
-                    @if(auth()->user()->current_stage == 1)
-                    <li><a href="{{route('stage1')}}">Stage 1</a></li>
+                @if(auth()->user()->current_stage == 1)
+                    <li><a href="{{route('stage1', ['id'=>auth()->user()->id])}}">Stage 1</a></li>
                     @endif
                     @if(auth()->user()->current_stage == 2)
-                    <li><a href="{{route('stage1')}}">Stage 1</a></li>
-                    <li><a href="{{route('stage2')}}">Stage 2</a></li>
+                    <li><a href="{{route('stage1', ['id'=>auth()->user()->id])}}">Stage 1</a></li>
+                    <li><a href="{{route('stage2', ['id'=>auth()->user()->id])}}">Stage 2</a></li>
                     @endif
                     @if(auth()->user()->current_stage == 3)
-                    <li><a href="{{route('stage1')}}">Stage 1</a></li>
-                    <li><a href="{{route('stage2')}}">Stage 2</a></li>
-                    <li><a href="{{route('stage3')}}">Stage 3</a></li>
+                    <li><a href="{{route('stage1', ['id'=>auth()->user()->id])}}">Stage 1</a></li>
+                    <li><a href="{{route('stage2', ['id'=>auth()->user()->id])}}">Stage 2</a></li>
+                    <li><a href="{{route('stage3', ['id'=>auth()->user()->id])}}">Stage 3</a></li>
                     @endif
                     @if(auth()->user()->current_stage == 4)
-                    <li><a href="{{route('stage1')}}">Stage 1</a></li>
-                    <li><a href="{{route('stage2')}}">Stage 2</a></li>
-                    <li><a href="{{route('stage3')}}">Stage 3</a></li>
-                    <li><a href="{{route('stage4')}}">Stage 4</a></li>  
-                    @endif                 
+                    <li><a href="{{route('stage1', ['id'=>auth()->user()->id])}}">Stage 1</a></li>
+                    <li><a href="{{route('stage2', ['id'=>auth()->user()->id])}}">Stage 2</a></li>
+                    <li><a href="{{route('stage3', ['id'=>auth()->user()->id])}}">Stage 3</a></li>
+                    <li><a href="{{route('stage4', ['id'=>auth()->user()->id])}}">Stage 4</a></li>  
+                    @endif                   
                 </ul>
             </li>
             <li> 

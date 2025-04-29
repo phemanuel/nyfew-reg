@@ -16,6 +16,7 @@ class DashboardController extends Controller
 
         // Fetch the application records for each stage
         $application = Application::where('user_id', $user->id)->get();
+        $stage1 = Application::where('stage', 1)->paginate(10);
 
         // Retrieve the stages and statuses for each stage
         $stageStatuses = [
@@ -25,7 +26,7 @@ class DashboardController extends Controller
             4 => $application->where('stage', 4)->first(),
         ];
 
-        return view('layout.user-dashboard', compact('stageStatuses','application'));
+        return view('layout.user-dashboard', compact('stageStatuses','application','stage1'));
     }
 
     public function edit($id)
@@ -55,7 +56,7 @@ class DashboardController extends Controller
             'qst1'        => 'required|in:BEGINNER,PROFESSIONAL',
             'qst2'        => 'required|in:YES,NO',
             'ifyesqst2'   => 'nullable|string|max:255',
-            'qst3'        => 'required|in:YES,NO',
+            // 'qst3'        => 'required|in:YES,NO',
             'image'       => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -96,7 +97,7 @@ class DashboardController extends Controller
         $user->qst1        = $validatedData['qst1'];
         $user->qst2        = $validatedData['qst2'];
         $user->if_yes_qst2   = $validatedData['ifyesqst2'];
-        $user->qst3        = $validatedData['qst3'];     
+        // $user->qst3        = $validatedData['qst3'];     
         $user->current_stage = 2;   
 
         $user->save();        
@@ -112,6 +113,12 @@ class DashboardController extends Controller
         $application->save();
 
         return redirect()->route('user-dashboard')->with('success', 'Stage 1 updated successfully!');
+    }
+    
+    public function stage2Edit()
+    
+    {
+        return redirect()->back()->with('error', 'You cannot access stage 2, as the selection process has not started.');
     }
     
 }
