@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="{{asset('dashboard/assets/plugins/bootstrap/css/bootstrap.min.css')}}">
  <!-- Bootstrap Select Css -->
 <link href="{{asset('dashboard/assets/plugins/bootstrap-select/css/bootstrap-select.css')}}" rel="stylesheet" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 
 
@@ -55,6 +56,15 @@
                 </div>
             </div>
         </div>
+        @if(session('success'))
+						<div class="alert alert-success">
+							{{ session('success') }}
+						</div>
+          @elseif(session('error'))
+						<div class="alert alert-danger">
+							{{ session('error') }}
+						</div>
+						@endif
         <div class="container-fluid">
             <div class="row clearfix">
             @if(auth()->user()->user_type == 1)
@@ -66,12 +76,12 @@
                         <h2>
                             1                            
                         </h2>
-                        <small class="d-block text-muted mb-2" style="font-size: 12px;">
-                            <strong>Online Registration</strong>                            
-                            &rarr; View                               
+                        <small class="d-block text-muted mb-2" style="font-size: 12px; color: #6c757d;">
+                            <strong style="font-size: 14px; color: #333;">Online Registration</strong>                            
+                            &rarr; <span style="font-weight: bold; color: #007bff;">{{$stage1Count}}</span>                             
                         </small>
                         <div class="progress">
-                            <div class="progress-bar l-amber" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width: 5%;"></div>
+                            <div class="progress-bar l-amber" role="progressbar" aria-valuenow="{{$stage1Count}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $stage1Count * 10 }}%;"></div>
                         </div>
                     </div>
                 </div>
@@ -85,12 +95,12 @@
                         <h2>
                             2                            
                         </h2>
-                        <small class="d-block text-muted mb-2" style="font-size: 12px;">
-                            <strong>Craft Video</strong>                            
-                            &rarr; View                               
+                        <small class="d-block text-muted mb-2" style="font-size: 12px; color: #6c757d;">
+                            <strong style="font-size: 14px; color: #333;">Craft Video</strong>                            
+                            &rarr; <span style="font-weight: bold; color: #007bff;">{{$stage2Count}}</span>                             
                         </small>
                         <div class="progress">
-                            <div class="progress-bar l-blue" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width: 5%;"></div>
+                            <div class="progress-bar l-blue" role="progressbar" aria-valuenow="{{$stage2Count}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $stage2Count * 10 }}%;"></div>
                         </div>
                     </div>
                 </div>
@@ -104,12 +114,12 @@
                         <h2>
                             3                            
                         </h2>
-                        <small class="d-block text-muted mb-2" style="font-size: 12px;">
-                            <strong>Business Pitch</strong>                            
-                            &rarr; View                               
+                        <small class="d-block text-muted mb-2" style="font-size: 12px; color: #6c757d;">
+                            <strong style="font-size: 14px; color: #333;">Business Pitch</strong>                            
+                            &rarr; <span style="font-weight: bold; color: #007bff;">{{$stage3Count}}</span>                             
                         </small>
                         <div class="progress">
-                            <div class="progress-bar l-purple" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width: 5%;"></div>
+                            <div class="progress-bar l-purple" role="progressbar" aria-valuenow="{{$stage3Count}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $stage3Count * 10 }}%;"></div>
                         </div>
                     </div>
                 </div>
@@ -123,12 +133,12 @@
                         <h2>
                             4                            
                         </h2>
-                        <small class="d-block text-muted mb-2" style="font-size: 12px;">
-                            <strong>Final Audition</strong>                            
-                            &rarr; View                               
+                        <small class="d-block text-muted mb-2" style="font-size: 12px; color: #6c757d;">
+                            <strong style="font-size: 14px; color: #333;">Final Audition</strong>                            
+                            &rarr; <span style="font-weight: bold; color: #007bff;">{{$stage4Count}}</span>                             
                         </small>
                         <div class="progress">
-                            <div class="progress-bar l-green" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width: 5%;"></div>
+                            <div class="progress-bar l-green" role="progressbar" aria-valuenow="{{$stage4Count}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $stage4Count * 10 }}%;"></div>
                         </div>
                     </div>
                 </div>
@@ -246,37 +256,41 @@
                 </div>
             </div>
             @endif
-
-
-                @if(session('success'))
-						<div class="alert alert-success">
-							{{ session('success') }}
-						</div>
-          @elseif(session('error'))
-						<div class="alert alert-danger">
-							{{ session('error') }}
-						</div>
-						@endif
+                
             <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="card project_list">
                         <div class="table-responsive">
+                        @if(auth()->user()->user_type == 1)
+                        <label for="stageSelect">Select Stage:</label>
+                        <select id="stageSelect" class="form-control w-25">
+                            <option value="1" selected>Stage 1</option>
+                            <option value="2">Stage 2</option>
+                            <option value="3">Stage 3</option>
+                            <option value="4">Stage 4</option>
+                        </select>
+                    </div>
+
+                    <div id="stageTable">
+                        @include('partials.stage-table', ['applications' => $stage1])
+                    </div>
+                        @elseif(auth()->user()->user_type == 2)
                         <table class="table table-hover c_table theme-color">
                             <thead>
                                 <tr>
                                     <th>Actions</th>
                                     <th style="width:50px;">Stage</th>
-                                    <th>Full Name</th>
-                                    <th>Email</th>
-                                    <th>Phone No</th>
-                                    <th>Date Registered</th>
+                                    <th>Comment</th>
+                                    <th>Status</th>
+                                    <th>Content</th>
+                                    <th>Due Date</th>
                                 
                                     
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($stage1 as $d)
+                                @foreach($application as $d)
                                 <tr>
                                     @if($d->status == 'Not Approved')
                                         <td>
@@ -302,6 +316,8 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        @endif
+
 
 </div>                        
                     </div>
@@ -312,6 +328,9 @@
         </div>
     </div>
 </section>
+
+
+
 
 
 <!-- Jquery Core Js --> 
@@ -327,3 +346,27 @@
 </body>
 
 </html>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $('#stageSelect').on('change', function () {
+        const stage = $(this).val();
+
+        $.ajax({
+            url: "{{ route('fetch.stage.data', '') }}/" + stage,
+            type: 'GET',
+            beforeSend: function () {
+                $('#stageTable').html('<div class="text-center my-3">Loading...</div>');
+            },
+            success: function (response) {
+                $('#stageTable').html(response.html);
+            },
+            error: function () {
+                $('#stageTable').html('<div class="text-danger">Error loading data.</div>');
+            }
+        });
+    });
+</script>
+

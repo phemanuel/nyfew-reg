@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use App\Models\Application;
+use App\Models\FailedLogin;
 
 use Illuminate\Http\Request;
 
@@ -103,7 +104,7 @@ class AuthController extends Controller
                     //--increment the number of attempts
                     $userLog->increment('login_attempts');
                     // Log the failed login attempt into the failed_logins table.
-                    FailedLogins::create([
+                    FailedLogin::create([
                     'ip_address' => $request->ip(),
                     'email' => $request->input('email'),
                 ]);

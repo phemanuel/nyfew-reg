@@ -24,15 +24,15 @@
 
             <!-- admin navbar -->
              @if(auth()->user()->user_type == 1)
-            <li class="active open"><a href="index.html"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
-            <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-apps"></i><span>Application</span></a>
+            <li class="active open"><a href="{{route('user-dashboard')}}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
+            <!-- <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-apps"></i><span>Application</span></a>
                 <ul class="ml-menu">
                     <li><a href="mail-inbox.html">Stage 1</a></li>
                     <li><a href="chat.html">Stage 2</a></li>
                     <li><a href="events.html">Stage 3</a></li>
                     <li><a href="contact.html">Stage 4</a></li>                    
                 </ul>
-            </li>
+            </li> -->
             <li> 
                 <a href="{{route('logout')}}"><i class="zmdi zmdi-power"></i><span>Logout</span></a> 
             </li>
@@ -181,7 +181,7 @@
             </li> -->
             <!-- member navbar -->
              @elseif(auth()->user()->user_type == 2)
-             <li class="active open"><a href="user-dashboard"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
+             <li class="active open"><a href="{{route('user-dashboard')}}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
              <li> 
                 <a href="#"><i class="zmdi zmdi-account"></i><span>Profile</span></a> 
             </li>

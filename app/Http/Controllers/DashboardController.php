@@ -18,6 +18,11 @@ class DashboardController extends Controller
         $application = Application::where('user_id', $user->id)->get();
         $stage1 = Application::where('stage', 1)->paginate(10);
 
+        $stage1Count = Application::where('stage', 1)->count();
+        $stage2Count = Application::where('stage', 2)->count();
+        $stage3Count = Application::where('stage', 3)->count();
+        $stage4Count = Application::where('stage', 4)->count();
+
         // Retrieve the stages and statuses for each stage
         $stageStatuses = [
             1 => $application->where('stage', 1)->first(),
@@ -26,7 +31,8 @@ class DashboardController extends Controller
             4 => $application->where('stage', 4)->first(),
         ];
 
-        return view('layout.user-dashboard', compact('stageStatuses','application','stage1'));
+        return view('layout.user-dashboard', compact('stageStatuses','application','stage1',
+         'stage1Count', 'stage2Count', 'stage3Count', 'stage4Count'));
     }
 
     public function edit($id)
@@ -120,5 +126,19 @@ class DashboardController extends Controller
     {
         return redirect()->back()->with('error', 'You cannot access stage 2, as the selection process has not started.');
     }
+
+    public function fetchStageData($stage)
+    {
+        // Fetch users based on selected stage
+        $stage1 = \App\Models\Application::with('user')
+            ->where('stage', $stage)
+            ->get();
+
+        // Render the table as HTML and return as a response
+        $html = view('partials.stage-table', compact('stage1'))->render();
+
+        return response()->json(['html' => $html]);
+    }
+
     
 }
