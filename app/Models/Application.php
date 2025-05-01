@@ -17,6 +17,7 @@ class Application extends Model
         'status',
         'content',
         'file_size',
+        'reviewed_at',
     ];
 
     public function user()

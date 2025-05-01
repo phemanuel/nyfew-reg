@@ -67,6 +67,9 @@ Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPas
     ->name('user.updateStage4');
     Route::get('/fetch-stage-data/{stage}', [DashboardController::class, 'fetchStageData'])
     ->name('fetch.stage.data');
+    Route::post('/video/review', [DashboardController::class, 'videoReview'])
+    ->name('video.review');
+
     
    
 

@@ -119,7 +119,7 @@
     <br>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Close</button>&nbsp;
+    <button type="button" class="btn btn-danger waves-effect" onclick="window.location.href='{{ route('user-dashboard') }}'">Close</button>&nbsp;
         <button type="submit" class="btn btn-primary">Save Changes</button>
     </div>
 </form>

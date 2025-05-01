@@ -16,6 +16,19 @@
 <link rel="stylesheet" href="{{asset('dashboard/assets/css/style.min.css')}}">
 
 <!-- Bootstrap CSS -->
+<style>
+    .btn-deep-gold {
+    background-color: #C7A100;
+    color: white;
+    border: none;
+}
+
+.btn-deep-gold:hover {
+    background-color: #B68A00; /* Slightly darker for hover effect */
+    color: white;
+}
+</style>
+
 
 </head>
 
@@ -280,16 +293,16 @@
 
                     @if(auth()->user()->user_type == 2)
                     <table class="table table-hover c_table theme-color">
-                        <thead>
-                            <tr>
-                                <th>Actions</th>
-                                <th style="width:50px;">Stage</th>
-                                <th>Comment</th>
-                                <th>Status</th>
-                                <th>Content</th>
-                                <th>Due Date</th>
-                            </tr>
-                        </thead>
+                    <thead>
+                        <tr>
+                            <th>Actions</th>
+                            <th style="width:50px;">Stage</th>
+                            <th>Comment</th>
+                            <th>Status</th>
+                            <th>Content</th>
+                            <th>Due Date</th>
+                        </tr>
+                    </thead>
                         <tbody>
                             @foreach($application as $d)
                                 <tr>
@@ -297,35 +310,31 @@
                                         @if($d->stage == 1)
                                             <!-- Stage 1 - Only models should update or view -->
                                             @if($d->status == 'Not Approved')
-                                                <a href="{{ route('stage1', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-warning">Update</a>
+                                                <a href="{{ route('stage1', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-deep-gold">Update</a>
                                             @elseif($d->status == 'Approved')
-                                                <a href="{{ route('stage1', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewVideoModal">View</a>
+                                                <a href="{{ route('stage1', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-deep-gold" data-bs-toggle="modal" data-bs-target="#viewVideoModal">View</a>
                                             @endif
                                         @elseif($d->stage == 2)
                                             <!-- Stage 2 - Video upload actions -->
                                             @if($d->status == 'Not Approved')
-                                                <a href="{{ route('stage2.update', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-warning">Update</a>
+                                                <a href="{{ route('stage2', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-deep-gold">Update</a>
                                             @elseif($d->status == 'Pending Review')
                                                 <span class="btn btn-sm btn-danger disabled">Under Review</span>
                                             @elseif($d->status == 'Reviewed')
-                                                <a href="{{ route('stage2', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-warning">Re-Upload</a>
+                                                <a href="{{ route('stage2', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-deep-gold">Re-Upload</a>
                                             @elseif($d->status == 'Approved')
-                                            <button type="button" class="btn btn-primary btn-sm stage-action-btn" data-toggle="modal" data-target="#viewVideoModal">
-                                                View
-                                            </button>
+                                                <button type="button" class="btn btn-sm btn-deep-gold stage-action-btn" data-toggle="modal" data-target="#viewVideoModal">View</button>
+                                            @endif
                                         @elseif($d->stage == 3)
                                             <!-- Stage 3 - Business Pitch actions -->
                                             @if($d->status == 'Not Approved')
-                                                <a href="{{ route('stage2.update', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-warning">Update</a>
+                                                <a href="{{ route('stage3', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-deep-gold">Update</a>
                                             @elseif($d->status == 'Pending Review')
                                                 <span class="btn btn-sm btn-danger disabled">Under Review</span>
                                             @elseif($d->status == 'Reviewed')
-                                                <a href="{{ route('stage2', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-warning">Re-Upload</a>
+                                                <a href="{{ route('stage3', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-deep-gold">Re-Upload</a>
                                             @elseif($d->status == 'Approved')
-                                            <button type="button" class="btn btn-primary btn-sm stage-action-btn" data-toggle="modal" data-target="#viewVideoModal">
-                                                View
-                                            </button>
-                                                
+                                            <button type="button" class="btn btn-sm btn-deep-gold stage-action-btn" data-toggle="modal" data-target="#viewVideoModal">View</button>
                                             @endif
                                         @endif
                                     </td>
@@ -333,11 +342,19 @@
                                     <td>{{ $d->comment }}</td>
                                     <td><span class="badge badge-info">{{ $d->status }}</span></td>
                                     <td>{{ $d->content ?? 'No content available' }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($d->due_date ?? '2025-05-31')->format('d M Y') }}</td>
+
+                                    @if($d->stage == 1)
+                                        <td>{{ \Carbon\Carbon::parse($d->due_date ?? '2025-05-31')->format('d M Y') }}</td>
+                                    @elseif($d->stage == 2)
+                                        <td>{{ \Carbon\Carbon::parse($d->due_date ?? '2025-07-13')->format('d M Y') }}</td>
+                                    @elseif($d->stage == 3)
+                                        <td>{{ \Carbon\Carbon::parse($d->due_date ?? '2025-08-16')->format('d M Y') }}</td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+
                     @endif
 
                 </div>
@@ -357,7 +374,7 @@
 @if(auth()->user()->user_type == 2)
 <!-- Modal to View the Video -->
 <div class="modal fade" id="viewVideoModal" tabindex="-1" aria-labelledby="viewVideoModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog custom-modal-width"">
         <div class="modal-content">
         <div class="modal-header bg-primary text-white">
                                     <h5 class="modal-title" id="userModalLabel{{ $d->id }}">Craft Video</h5>

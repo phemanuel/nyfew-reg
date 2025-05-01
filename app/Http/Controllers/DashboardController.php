@@ -142,22 +142,30 @@ class DashboardController extends Controller
         $dueDate = "2025-07-13";
         $currentDate = date('Y-m-d');
 
-        if($currentDate < $startDate){
-            return redirect()->back()->with('error', 'Entries for stage 2 has not commenced, check back.');
-        }
-        elseif($currentDate > $dueDate){
+        if ($currentDate < $startDate) {
+            return redirect()->back()->with('error', 'Entries for stage 2 have not commenced, check back.');
+        } elseif ($currentDate > $dueDate) {
             return redirect()->back()->with('error', 'Registration Closed.');
         }
 
         $user = User::findOrFail($id);
 
-        // Check if a stage 2 record already exists for the user
-        $applicationExists = Application::where('user_id', $id)
+        // Retrieve the stage 2 application if it exists
+        $application = Application::where('user_id', $id)
             ->where('stage', 2)
-            ->exists();
+            ->first();
 
-        // If not exists, create it
-        if (!$applicationExists) {
+        if ($application) {
+            // Check the application status
+            if ($application->status == 'Pending Review') {
+                return redirect()->back()->with('error', 'Your video is still under review, you cannot upload yet.');
+            } elseif ($application->status == 'Approved') {
+                return redirect()->back()->with('error', 'Your video has been approved, you can only view or proceed to the next stage.');
+            }
+
+            // If status is Not Approved or Reviewed, allow access to stage 2 form
+        } else {
+            // Create a new application for stage 2 if it doesn't exist
             Application::create([
                 'user_id' => $id,
                 'status' => 'Not Approved',
@@ -168,6 +176,7 @@ class DashboardController extends Controller
 
         return view('layout.stage2', compact('user'));
     }
+
 
     public function updateStage2(Request $request, $id)
     {
@@ -186,7 +195,7 @@ class DashboardController extends Controller
                 case 'Pending Review':
                     return back()->with('error', 'Your video is under review. You cannot upload another at this time.');
                 case 'Approved':
-                    return back()->with('error', 'Your video has been approved. You can only view it.');
+                    return back()->with('error', 'Your video has been approved. You can only view it, or proceed to the next stage.');
                 case 'Not approved':
                     return back()->with('error', 'Your video submission is not approved. You can try again in our next edition. Wishing you all the best.');
                 case 'Reviewed':
@@ -238,6 +247,45 @@ class DashboardController extends Controller
 
         return response()->json(['html' => $html]);
     }
+
+    public function videoReview(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'user_stage_id' => 'required|integer|exists:applications,id',
+            'status' => 'required|string|in:Not Approved,Reviewed,Approved',
+            'comment' => 'nullable|string|max:1000',
+        ]);
+
+        // Find the application by ID
+        $application = Application::find($request->user_stage_id);
+
+        // Update the current application with the review details
+        $application->status = $request->status;
+        $application->comment = $request->comment;
+        $application->reviewed_at = now();
+        $application->save();
+
+        // Check if the status is "Approved"
+        if ($request->status === 'Approved') {
+            // Update the user's current stage in the user table
+            $user = $application->user;  // Assuming there's a relationship to the user
+            $user->current_stage = 3;
+            $user->save();
+
+            // Create a new record in the application table for stage 3
+            Application::create([
+                'user_id' => $application->user_id,
+                'status' => 'Not Approved',
+                'comment' => 'Business Pitch has not been submitted.',
+                'stage' => 3,
+            ]);
+        }
+
+        // Return a success message
+        return response()->json(['message' => 'Review updated successfully']);
+    }
+
 
     
 }
