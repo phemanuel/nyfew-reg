@@ -8,6 +8,7 @@
             <thead>
                 <tr>
                     <th>Actions</th>
+                    <th>Status</th>
                     <th style="width:50px;">Stage</th>
                     <th>Full Name</th>
                     <th>Email</th>
@@ -23,6 +24,7 @@
                                 View
                             </button>
                         </td>
+                        <td>{{ $d->status }}</td>
                         <td>{{ $d->stage }}</td>
                         <td>{{ $d->user->surname . " " . $d->user->first_name . " " . $d->user->other_name }}</td>
                         <td>{{ $d->user->email }}</td>

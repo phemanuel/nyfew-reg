@@ -30,6 +30,13 @@ class AuthController extends Controller
 
     public  function signUp()
     {
+        $dueDate = "2025-05-31";
+        $currentDate = date('Y-m-d');
+
+        if($currentDate > $dueDate){
+            return redirect()->back()->with('error', 'Registration Closed.');
+        }
+
         return view('auth.auth-signup');
     }
 
@@ -135,7 +142,7 @@ class AuthController extends Controller
                 // Email is not verified, return a flash message
                 //Auth::logout(); // Log the user out since the email is not verified                    
                 $email_address = $request->email;         
-                 return view('auth.email-not-verify');
+                return view('auth.email-not-verify', compact('email_address'));
                  
             }
         } catch (ValidationException $e) {

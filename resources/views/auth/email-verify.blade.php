@@ -59,12 +59,12 @@
                 <p>{{ $message }}</p>
               </div> 
               <div class="button input-box">
-                <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+                <input type="hidden" name="email" value="{{ $email }}">
                 <input type="submit" class="form-control btn btn-primary rounded submit px-3" value="Didn't see it? Resend">
               </div>              
             </div>
         </form>
-		<p class="text-center">Don't have an account? <a  href="{{route('signup')}}">Sign Up</a></p>
+		<!-- <p class="text-center">Don't have an account? <a  href="{{route('signup')}}">Sign Up</a></p> -->
 		<p class="text-center">Already have an account? <a  href="{{route('signin')}}">Sign In</a></p>
 		        </div>
 		      </div>

@@ -55,15 +55,15 @@
             <div>
               <div>                
                 <h3>Please verify your email</h3>                
-                <p>Your email address <strong>({{ auth()->user()->email }})</strong> has not been verified, click on the button below to send email verification link.</p>
+                <p>Your email address <strong>({{ $email_address }})</strong> has not been verified, click on the button below to send email verification link.</p>
               </div> 
               <div class="button input-box">
-                <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+                <input type="hidden" name="email" value="{{ $email_address }}">
                 <input type="submit" class="form-control btn btn-primary rounded submit px-3" value="Verify Email">
               </div>              
             </div>
         </form>
-		<p class="text-center">Don't have an account? <a  href="{{route('signup')}}">Sign Up</a></p>
+		<!-- <p class="text-center">Don't have an account? <a  href="{{route('signup')}}">Sign Up</a></p> -->
 		<p class="text-center">Already have an account? <a  href="{{route('signin')}}">Sign In</a></p>
 		        </div>
 		      </div>

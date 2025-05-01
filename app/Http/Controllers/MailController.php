@@ -40,14 +40,14 @@ class MailController extends Controller
             // Success: Email sent
             //session()->flash('success', 'Account setup successful! You can login to complete your profile.');
 
-            return redirect('email-verify');
+            return redirect()->route('email-verify');
         } catch (\Exception $e) {
             // Log the error
             Log::error('Error during mail: ' . $e->getMessage()); 
             // Error handling: Handle the error and display an error message
             session()->flash('error', 'An error occurred while sending the email.');
 
-            return redirect('signin');
+            return redirect()->route('signin');
         }
     }
 
@@ -147,7 +147,13 @@ class MailController extends Controller
     {
         try {
             // Find the user with the given token
-            $user = User::where('remember_token', $token)->first();
+            $user = User::where('remember_token', $token)->first();          
+            
+            if(!$user){
+                return redirect()->route('signin')->with('error', 'Please login to verify your email.');
+            }
+            $email = $user->email;
+            session(['email' => $email]);
 
             if ($user) {
                 // Mark the email as verified

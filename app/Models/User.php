@@ -46,6 +46,7 @@ class User extends Authenticatable
         'user_type',
         'login_attempts',
         'email_verified_status',
+        'remember_token',
     ];
 
     /**

@@ -14,6 +14,9 @@
 
 <!-- Custom Css -->
 <link rel="stylesheet" href="{{asset('dashboard/assets/css/style.min.css')}}">
+
+<!-- Bootstrap CSS -->
+
 </head>
 
 <body class="theme-blush">
@@ -260,7 +263,7 @@
                 <div class="table-responsive">
 
                     @if(auth()->user()->user_type == 1)
-                        <div class="form-group w-100 w-lg-25">
+                        <div class="form-group w-25">
                             <label for="stageSelect">Select Application Stage:</label>
                             <select id="stageSelect" class="form-control">
                                 <option value="1" selected>Stage 1</option>
@@ -276,34 +279,65 @@
                     @endif
 
                     @if(auth()->user()->user_type == 2)
-                        <table class="table table-hover c_table theme-color">
-                            <thead>
+                    <table class="table table-hover c_table theme-color">
+                        <thead>
+                            <tr>
+                                <th>Actions</th>
+                                <th style="width:50px;">Stage</th>
+                                <th>Comment</th>
+                                <th>Status</th>
+                                <th>Content</th>
+                                <th>Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($application as $d)
                                 <tr>
-                                    <th>Actions</th>
-                                    <th style="width:50px;">Stage</th>
-                                    <th>Comment</th>
-                                    <th>Status</th>
-                                    <th>Content</th>
-                                    <th>Due Date</th>
+                                    <td>
+                                        @if($d->stage == 1)
+                                            <!-- Stage 1 - Only models should update or view -->
+                                            @if($d->status == 'Not Approved')
+                                                <a href="{{ route('stage1', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-warning">Update</a>
+                                            @elseif($d->status == 'Approved')
+                                                <a href="{{ route('stage1', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewVideoModal">View</a>
+                                            @endif
+                                        @elseif($d->stage == 2)
+                                            <!-- Stage 2 - Video upload actions -->
+                                            @if($d->status == 'Not Approved')
+                                                <a href="{{ route('stage2.update', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-warning">Update</a>
+                                            @elseif($d->status == 'Pending Review')
+                                                <span class="btn btn-sm btn-danger disabled">Under Review</span>
+                                            @elseif($d->status == 'Reviewed')
+                                                <a href="{{ route('stage2', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-warning">Re-Upload</a>
+                                            @elseif($d->status == 'Approved')
+                                            <button type="button" class="btn btn-primary btn-sm stage-action-btn" data-toggle="modal" data-target="#viewVideoModal">
+                                                View
+                                            </button>
+                                        @elseif($d->stage == 3)
+                                            <!-- Stage 3 - Business Pitch actions -->
+                                            @if($d->status == 'Not Approved')
+                                                <a href="{{ route('stage2.update', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-warning">Update</a>
+                                            @elseif($d->status == 'Pending Review')
+                                                <span class="btn btn-sm btn-danger disabled">Under Review</span>
+                                            @elseif($d->status == 'Reviewed')
+                                                <a href="{{ route('stage2', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-warning">Re-Upload</a>
+                                            @elseif($d->status == 'Approved')
+                                            <button type="button" class="btn btn-primary btn-sm stage-action-btn" data-toggle="modal" data-target="#viewVideoModal">
+                                                View
+                                            </button>
+                                                
+                                            @endif
+                                        @endif
+                                    </td>
+                                    <td>{{ $d->stage }}</td>
+                                    <td>{{ $d->comment }}</td>
+                                    <td><span class="badge badge-info">{{ $d->status }}</span></td>
+                                    <td>{{ $d->content ?? 'No content available' }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($d->due_date ?? '2025-05-31')->format('d M Y') }}</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($application as $d)
-                                    <tr>
-                                        <td>
-                                            <a href="{{ route('user.edit', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-warning">
-                                                {{ $d->status == 'Not Approved' ? 'Complete Stage 1' : 'View' }}
-                                            </a>
-                                        </td>
-                                        <td>{{ $d->stage }}</td>
-                                        <td>{{ $d->comment }}</td>
-                                        <td><span class="badge badge-info">{{ $d->status }}</span></td>
-                                        <td>{{ $d->content ?? 'No content available' }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($d->due_date ?? '2025-05-31')->format('d M Y') }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                            @endforeach
+                        </tbody>
+                    </table>
                     @endif
 
                 </div>
@@ -320,7 +354,29 @@
 </section>
 
 
+@if(auth()->user()->user_type == 2)
+<!-- Modal to View the Video -->
+<div class="modal fade" id="viewVideoModal" tabindex="-1" aria-labelledby="viewVideoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title" id="userModalLabel{{ $d->id }}">Craft Video</h5>
+                                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+            <div class="modal-body">
+                <video width="100%" controls>
+                    <source src="{{ url('video/' . $d->content) }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+</div>
+@else
 
+@endif
 
 
 <!-- Jquery Core Js --> 
@@ -330,8 +386,6 @@
 <!-- jQuery first -->
 <script src="{{ asset('dashboard/assets/bundles/libscripts.bundle.js') }}"></script>
 
-<!-- Optional: only include Bootstrap here if it's not in libscripts.bundle.js -->
-<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 
 <!-- Vendor scripts (like dropdowns, slimscroll, etc) -->
 <script src="{{ asset('dashboard/assets/bundles/vendorscripts.bundle.js') }}"></script>

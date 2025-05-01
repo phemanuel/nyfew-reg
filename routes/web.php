@@ -49,23 +49,21 @@ Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPas
     Route::get('user/dashboard', [DashboardController::class,'userDashboard'])->middleware('auth')
     ->name('user-dashboard');
     Route::get('user/application/stage1/{id}', [DashboardController::class,'edit'])->middleware('auth')
-    ->name('stage1');
-    Route::get('/user/application/stage1/{id}/edit', [DashboardController::class, 'edit'])->middleware('auth')
-    ->name('user.edit');
+    ->name('stage1');    
     Route::put('/user/application/updateStage1/{id}', [DashboardController::class, 'updateStage1'])
     ->middleware('auth')
     ->name('user.updateStage1'); 
-    Route::get('user/application/stage2', [DashboardController::class,'stage2Edit'])->middleware('auth')
+    Route::get('user/application/stage2/{id}', [DashboardController::class,'stage2Edit'])->middleware('auth')
     ->name('stage2');   
-    Route::get('user/application/updateStage2', [DashboardController::class,'stage2'])->middleware('auth')
+    Route::put('user/application/updateStage2/{id}', [DashboardController::class,'updateStage2'])->middleware('auth')
     ->name('user.updateStage2');
-    Route::get('user/application/stage3', [DashboardController::class,'stage3'])->middleware('auth')
+    Route::get('user/application/stage3/{id}', [DashboardController::class,'stage3Edit'])->middleware('auth')
     ->name('stage3');
-    Route::get('user/application/updateStage3', [DashboardController::class,'stage3'])->middleware('auth')
+    Route::put('user/application/updateStage3/{id}', [DashboardController::class,'updateStage3'])->middleware('auth')
     ->name('user.updateStage3');
-    Route::get('user/application/stage4', [DashboardController::class,'stage4'])->middleware('auth')
+    Route::get('user/application/stage4/{id}', [DashboardController::class,'stage4Edit'])->middleware('auth')
     ->name('stage4');
-    Route::get('user/application/updateStage4', [DashboardController::class,'stage4'])->middleware('auth')
+    Route::put('user/application/updateStage4/{id}', [DashboardController::class,'updateStage4'])->middleware('auth')
     ->name('user.updateStage4');
     Route::get('/fetch-stage-data/{stage}', [DashboardController::class, 'fetchStageData'])
     ->name('fetch.stage.data');

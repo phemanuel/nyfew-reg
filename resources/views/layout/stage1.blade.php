@@ -28,6 +28,15 @@
     <!-- Title -->
     <h4 style="margin: 0; font-weight: bold; color: white; font-family: 'Arial', sans-serif;">Online Registration Update</h4> 
 </div>
+@if(session('success'))
+						<div class="alert alert-success">
+							{{ session('success') }}
+						</div>
+            @elseif(session('error'))
+						<div class="alert alert-danger">
+							{{ session('error') }}
+						</div>           
+						@endif
         <hr>
                 <form id="updateForm"  method="POST" action="{{ route('user.updateStage1', ['id' => auth()->user()->id]) }}" enctype="multipart/form-data">
     @csrf
@@ -261,7 +270,7 @@
     <br>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Close</button>&nbsp;
+    <button type="button" class="btn btn-danger waves-effect" onclick="window.location.href='{{ route('user-dashboard') }}'">Close</button>&nbsp;
         <button type="submit" class="btn btn-primary">Save Changes</button>
     </div>
 </form>
@@ -276,7 +285,7 @@
     <!-- JS -->
     <script src="{{asset('form1/vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('form1/js/main.js')}}"></script>
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</body>
 </html>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
