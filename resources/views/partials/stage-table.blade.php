@@ -19,7 +19,7 @@
                 @foreach($stage1 as $d)
                     <tr>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#userModal{{ $d->id }}">
+                            <button type="button" class="btn btn-primary btn-sm stage-action-btn" data-toggle="modal" data-target="#userModal{{ $d->id }}">
                                 View
                             </button>
                         </td>

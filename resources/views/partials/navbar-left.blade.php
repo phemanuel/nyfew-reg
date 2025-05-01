@@ -2,13 +2,22 @@
 <aside id="leftsidebar" class="sidebar">
     <div class="navbar-brand">
         <button class="btn-menu ls-toggle-btn" type="button"><i class="zmdi zmdi-menu"></i></button>
-        <a href="index.html"><img src="{{asset('dashboard/assets/images/favicon.png')}}"  alt="NYFEW"></a>
+        <a href="{{route('user-dashboard')}}"><img src="{{asset('dashboard/assets/images/favicon.png')}}"  alt="NYFEW"></a>
     </div>
     <div class="menu">
         <ul class="list">
             <li>
                 <div class="user-info">
-                    <a class="image" href="#"><img src="{{asset('uploads/' . auth()->user()->image)}}" alt="User"></a>
+                @php
+                    $userImage = auth()->user()->image;
+                    $imagePath = $userImage && file_exists(public_path('uploads/' . $userImage))
+                        ? asset('uploads/' . $userImage)
+                        : asset('uploads/blank.jpg');
+                @endphp
+
+                <a class="image" href="#">
+                    <img src="{{ $imagePath }}" alt="User">
+                </a>
                     <div class="detail">
                     <h4>{{ auth()->user()->first_name ?? 'User' }}</h4>
                         <small>

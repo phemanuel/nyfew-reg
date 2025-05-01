@@ -7,14 +7,10 @@
 <meta name="description" content="NYFEW">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>NYFEW :: Dashboard</title>
+<!-- Bootstrap Select Css -->
+<link href="{{asset('dashboard/assets/plugins/bootstrap-select/css/bootstrap-select.css')}}" rel="stylesheet" />
 <link rel="icon" href="{{asset('dashboard/assets/images/favicon.png')}}" type="image/x-icon">
 <link rel="stylesheet" href="{{asset('dashboard/assets/plugins/bootstrap/css/bootstrap.min.css')}}">
- <!-- Bootstrap Select Css -->
-<link href="{{asset('dashboard/assets/plugins/bootstrap-select/css/bootstrap-select.css')}}" rel="stylesheet" />
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-
-
 
 <!-- Custom Css -->
 <link rel="stylesheet" href="{{asset('dashboard/assets/css/style.min.css')}}">
@@ -258,24 +254,28 @@
             @endif
                 
             <div class="container-fluid">
-            <div class="row clearfix">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="card project_list">
-                        <div class="table-responsive">
-                        @if(auth()->user()->user_type == 1)
-                        <label for="stageSelect">Select Stage:</label>
-                        <select id="stageSelect" class="form-control w-25">
-                            <option value="1" selected>Stage 1</option>
-                            <option value="2">Stage 2</option>
-                            <option value="3">Stage 3</option>
-                            <option value="4">Stage 4</option>
-                        </select>
-                    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="card project_list">
+                <div class="table-responsive">
 
-                    <div id="stageTable">
-                        @include('partials.stage-table', ['applications' => $stage1])
-                    </div>
-                        @elseif(auth()->user()->user_type == 2)
+                    @if(auth()->user()->user_type == 1)
+                        <div class="form-group w-100 w-lg-25">
+                            <label for="stageSelect">Select Application Stage:</label>
+                            <select id="stageSelect" class="form-control">
+                                <option value="1" selected>Stage 1</option>
+                                <option value="2">Stage 2</option>
+                                <option value="3">Stage 3</option>
+                                <option value="4">Stage 4</option>
+                            </select>
+                        </div>
+
+                        <div id="stageTable">
+                            @include('partials.stage-table', ['applications' => $stage1])
+                        </div>
+                    @endif
+
+                    @if(auth()->user()->user_type == 2)
                         <table class="table table-hover c_table theme-color">
                             <thead>
                                 <tr>
@@ -285,44 +285,34 @@
                                     <th>Status</th>
                                     <th>Content</th>
                                     <th>Due Date</th>
-                                
-                                    
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($application as $d)
-                                <tr>
-                                    @if($d->status == 'Not Approved')
+                                    <tr>
                                         <td>
-                                        <a href="{{ route('user.edit', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-warning">
-                                            Complete Stage 1
-                                        </a>
+                                            <a href="{{ route('user.edit', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-warning">
+                                                {{ $d->status == 'Not Approved' ? 'Complete Stage 1' : 'View' }}
+                                            </a>
                                         </td>
-                                    @elseif($d->status == 'Approved')
-                                        <td>
-                                        <a href="{{ route('user.edit', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-warning">
-                                            View
-                                        </a>
-                                        </td>
-                                    @endif
-                                    <td>{{ $d->stage }}</td>
-                                    <td>{{ $d->comment }}</td>
-                                    <td><span class="badge badge-info">{{ $d->status }}</span></td>
-                                    <td>{{ $d->content ?? 'No content available' }}</td>
-                                    <td>31 May 2025</td> 
-                                    
-                                    
-                                </tr>
+                                        <td>{{ $d->stage }}</td>
+                                        <td>{{ $d->comment }}</td>
+                                        <td><span class="badge badge-info">{{ $d->status }}</span></td>
+                                        <td>{{ $d->content ?? 'No content available' }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($d->due_date ?? '2025-05-31')->format('d M Y') }}</td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        @endif
+                    @endif
 
-
-</div>                        
-                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+        </div>
         </div>
 
         </div>
@@ -334,21 +324,34 @@
 
 
 <!-- Jquery Core Js --> 
-<script src="{{asset('dashboard/assets/bundles/libscripts.bundle.js')}}"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) --> 
-<script src="{{asset('dashboard/assets/bundles/vendorscripts.bundle.js')}}"></script> <!-- slimscroll, waves Scripts Plugin Js -->
+ <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+ 
 
-<script src="{{asset('dashboard/assets/bundles/jvectormap.bundle.js')}}"></script> 
-<script src="{{asset('dashboard/assets/bundles/sparkline.bundle.js')}}"></script> 
-<script src="{{asset('dashboard/assets/bundles/c3.bundle.js')}}"></script>
+<!-- jQuery first -->
+<script src="{{ asset('dashboard/assets/bundles/libscripts.bundle.js') }}"></script>
 
-<script src="{{asset('dashboard/assets/bundles/mainscripts.bundle.js')}}"></script>
-<script src="{{asset('dashboard/assets/js/pages/index.js')}}"></script>
+<!-- Optional: only include Bootstrap here if it's not in libscripts.bundle.js -->
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
+
+<!-- Vendor scripts (like dropdowns, slimscroll, etc) -->
+<script src="{{ asset('dashboard/assets/bundles/vendorscripts.bundle.js') }}"></script>
+
+<!-- Any plugin bundles -->
+<script src="{{ asset('dashboard/assets/bundles/jvectormap.bundle.js') }}"></script>
+<script src="{{ asset('dashboard/assets/bundles/sparkline.bundle.js') }}"></script>
+<script src="{{ asset('dashboard/assets/bundles/c3.bundle.js') }}"></script>
+
+<!-- Main scripts -->
+<script src="{{ asset('dashboard/assets/bundles/mainscripts.bundle.js') }}"></script>
+
+<!-- Page-specific scripts -->
+<script src="{{ asset('dashboard/assets/js/pages/index.js') }}"></script>
+
 </body>
 
 </html>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 <script>
     $('#stageSelect').on('change', function () {
@@ -369,4 +372,7 @@
         });
     });
 </script>
+
+
+
 
