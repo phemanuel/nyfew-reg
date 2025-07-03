@@ -27,6 +27,7 @@ return new class extends Migration
             $table->date('dob')->nullable();
             $table->string('mobile_no1', 15)->nullable();
             $table->string('interest')->nullable();
+            $table->string('interest_fashion')->nullable();
             $table->unsignedInteger('current_stage')->nullable(); // Correct unsigned integer
             $table->string('instagram', 60)->nullable();
             $table->string('facebook', 60)->nullable();

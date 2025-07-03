@@ -193,6 +193,23 @@
                 </div>
             </div>
 
+            <!-- Fashion illustrator -->
+            <div class="row mb-3" id="fashionIllustratorRow" style="display: none;">
+                <div class="col-md-12">
+                    <label for="interest_fashion" class="form-label">
+                        Do you have professional experience as a <strong>Fashion Illustrator</strong>?
+                    </label>
+                    <select class="form-control" id="interest_fashion" name="interest_fashion" required>
+                        <option value="">Select your answer</option>
+                        <option value="YES" {{ old('interest_fashion', auth()->user()->interest_fashion) == 'YES' ? 'selected' : '' }}>YES</option>
+                        <option value="NO" {{ old('interest_fashion', auth()->user()->interest_fashion) == 'NO' ? 'selected' : '' }}>NO</option>
+                    </select>
+                    @error('interest_fashion')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+
             <!-- Knowledge Level -->
             <div class="row mb-3">
                 <div class="col-md-12">
@@ -285,6 +302,7 @@
     <!-- JS -->
     <script src="{{asset('form1/vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('form1/js/main.js')}}"></script>
+    
 </body>
 </html>
 <script>
@@ -315,5 +333,26 @@
         qst2.addEventListener('change', toggleIfYesField);
 
         toggleIfYesField(); // Run on page load too
+    });
+</script>
+<!-- jQuery Script -->
+
+<script>
+    function toggleFashionField() {
+        const interest = $('#interest').val();
+        if (interest === 'FASHION DESIGNING') {
+            $('#fashionIllustratorRow').show();
+        } else {
+            $('#fashionIllustratorRow').hide();
+            $('#interest_fashion').val(''); // Optional: Clear value if hidden
+        }
+    }
+
+    $(document).ready(function () {
+        toggleFashionField(); // Run on page load
+
+        $('#interest').on('change', function () {
+            toggleFashionField();
+        });
     });
 </script>

@@ -16,7 +16,9 @@ class DashboardController extends Controller
 
         // Fetch the application records for each stage
         $application = Application::where('user_id', $user->id)->get();
-        $stage1 = Application::where('stage', 1)->paginate(10);
+        $stage1 = Application::where('stage', 1)
+        ->orderBy('status', 'asc')
+        ->paginate(10);
 
         $stage1Count = Application::where('stage', 1)->count();
         $stage2Count = Application::where('stage', 2)->count();
@@ -43,103 +45,98 @@ class DashboardController extends Controller
 
     public function updateStage1(Request $request)
     {
-        // Validate the incoming data
-        $validatedData = $request->validate([
-            'surname'     => 'required|string|max:255',
-            'first_name'  => 'required|string|max:255',
-            'other_name'  => 'required|string|max:255',
-            'mobile_no'   => 'required|string|max:20',
-            'mobile_no1'  => 'required|string|max:20',
-            'gender'      => 'required|in:male,female',
-            'dob'         => 'required|date',
-            'address'     => 'required|string|max:255',
-            'occupation'  => 'required|string|max:255',
-            'instagram'   => 'nullable|string|max:255',
-            'facebook'    => 'nullable|string|max:255',
-            'snapchat'    => 'nullable|string|max:255',
-            'twitter'     => 'nullable|string|max:255',
-            'interest'    => 'required|string|max:255',
-            'qst1'        => 'required|in:BEGINNER,PROFESSIONAL',
-            'qst2'        => 'required|in:YES,NO',
-            'ifyesqst2'   => 'nullable|string|max:255',
-            // 'qst3'        => 'required|in:YES,NO',
-            'image'       => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-
-        $user = Auth::user();
-
-        // Handle file upload
-        if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($user->image && file_exists(public_path('uploads/' . $user->image))) {
-                unlink(public_path('uploads/' . $user->image));
-            }
-        
-            // Generate a unique name for the new image
-            $imageName = time() . '.' . $request->image->extension();
-        
-            // Move the image to the 'public/uploads' directory
-            $request->image->move(public_path('uploads'), $imageName);
-        
-            // Update the user's image field with the new image name
-            $user->image = $imageName;
-        }
-
-        // Update user details
-        $user->surname     = $validatedData['surname'];
-        $user->first_name  = $validatedData['first_name'];
-        $user->other_name  = $validatedData['other_name'];
-        $user->mobile_no   = $validatedData['mobile_no'];
-        $user->mobile_no1  = $validatedData['mobile_no1'];
-        $user->gender      = $validatedData['gender'];
-        $user->dob         = $validatedData['dob'];
-        $user->address     = $validatedData['address'];
-        $user->occupation  = $validatedData['occupation'];
-        $user->instagram   = $validatedData['instagram'];
-        $user->facebook    = $validatedData['facebook'];
-        $user->snapchat    = $validatedData['snapchat'];
-        $user->twitter     = $validatedData['twitter'];
-        $user->interest    = $validatedData['interest'];
-        $user->qst1        = $validatedData['qst1'];
-        $user->qst2        = $validatedData['qst2'];
-        $user->if_yes_qst2   = $validatedData['ifyesqst2'];
-        // $user->qst3        = $validatedData['qst3'];     
-        $user->current_stage = 2;   
-
-        $user->save();        
-
-        // Fetch the application records for each stage
-        $application = Application::where('user_id', $user->id)
-        ->where('stage',1)
-        ->first();
-
-        $application->status = 'Approved';
-        $application->comment = 'Stage 1 Completed.';
-
-        $application->save();
-
-        // Check if a stage 2 record already exists for the user
-        $applicationExists = Application::where('user_id', $id)
-            ->where('stage', 2)
-            ->exists();
-
-        // If not exists, create it
-        if (!$applicationExists) {
-            Application::create([
-                'user_id' => $user->id,
-                'status' => 'Not Approved',
-                'comment' => 'Not Completed',
-                'stage' => 2,
+        try {
+            // Validate the incoming data
+            $validatedData = $request->validate([
+                'surname'     => 'required|string|max:255',
+                'first_name'  => 'required|string|max:255',
+                'other_name'  => 'required|string|max:255',
+                'mobile_no'   => 'required|string|max:50',
+                'mobile_no1'  => 'required|string|max:50',
+                'gender'      => 'required|in:male,female',
+                'dob'         => 'required|date',
+                'address'     => 'required|string|max:255',
+                'occupation'  => 'required|string|max:255',
+                'instagram'   => 'nullable|string|max:255',
+                'facebook'    => 'nullable|string|max:255',
+                'snapchat'    => 'nullable|string|max:255',
+                'twitter'     => 'nullable|string|max:255',
+                'interest'    => 'required|string|max:255',
+                'qst1'        => 'required|in:BEGINNER,PROFESSIONAL',
+                'qst2'        => 'required|in:YES,NO',
+                'ifyesqst2'   => 'nullable|string|max:255',
+                'interest_fashion'   => 'nullable|in:YES,NO',
+                'image'       => 'nullable|image|mimes:jpeg,png,jpg|max:10048',
             ]);
+    
+            $user = Auth::user();
+    
+            // Handle file upload
+            if ($request->hasFile('image')) {
+                if ($user->image && file_exists(public_path('uploads/' . $user->image))) {
+                    unlink(public_path('uploads/' . $user->image));
+                }
+    
+                $imageName = time() . '.' . $request->image->extension();
+                $request->image->move(public_path('uploads'), $imageName);
+                $user->image = $imageName;
+            }
+    
+            // Update user fields with fallback to 'N/A'
+            $user->surname     = $validatedData['surname'] ?? 'N/A';
+            $user->first_name  = $validatedData['first_name'] ?? 'N/A';
+            $user->other_name  = $validatedData['other_name'] ?? 'N/A';
+            $user->mobile_no   = $validatedData['mobile_no'] ?? 'N/A';
+            $user->mobile_no1  = $validatedData['mobile_no1'] ?? 'N/A';
+            $user->gender      = $validatedData['gender'] ?? 'N/A';
+            $user->dob         = $validatedData['dob'] ?? 'N/A';
+            $user->address     = $validatedData['address'] ?? 'N/A';
+            $user->occupation  = $validatedData['occupation'] ?? 'N/A';
+            $user->instagram   = $validatedData['instagram'] ?? 'N/A';
+            $user->facebook    = $validatedData['facebook'] ?? 'N/A';
+            $user->snapchat    = $validatedData['snapchat'] ?? 'N/A';
+            $user->twitter     = $validatedData['twitter'] ?? 'N/A';
+            $user->interest    = $validatedData['interest'] ?? 'N/A';
+            $user->qst1        = $validatedData['qst1'] ?? 'N/A';
+            $user->qst2        = $validatedData['qst2'] ?? 'N/A';
+            $user->if_yes_qst2 = $validatedData['ifyesqst2'] ?? 'N/A';
+            $user->interest_fashion = $validatedData['interest_fashion'] ?? 'N/A';
+            $user->current_stage = 2;
+    
+            $user->save();
+    
+            // Update Stage 1 application
+            $application = Application::where('user_id', $user->id)->where('stage', 1)->first();
+            if ($application) {
+                $application->status = 'Approved';
+                $application->comment = 'Stage 1 Completed.';
+                $application->save();
+            }
+    
+            // Create Stage 2 application if not exists
+            $applicationExists = Application::where('user_id', $user->id)->where('stage', 2)->exists();
+    
+            if (!$applicationExists) {
+                Application::create([
+                    'user_id' => $user->id,
+                    'status' => 'Not Approved',
+                    'comment' => 'Not Completed',
+                    'stage' => 2,
+                ]);
+            }
+    
+            return redirect()->route('user-dashboard')->with('success', 'Stage 1 updated successfully!');
+        } catch (\Exception $e) {
+            \Log::error('Stage1 Update Error: '.$e->getMessage());
+    
+            return back()->with('error', 'An error occurred while updating Stage 1. Please try again.');
         }
-
-        return redirect()->route('user-dashboard')->with('success', 'Stage 1 updated successfully!');
     }
     
     public function stage2Edit($id)
     {
-        $startDate = "2025-04-30";
-        $dueDate = "2025-07-13";
+        $startDate = "2025-08-01";
+        $dueDate = "2025-08-17";
         $currentDate = date('Y-m-d');
 
         if ($currentDate < $startDate) {
@@ -240,7 +237,8 @@ class DashboardController extends Controller
         // Fetch users based on selected stage
         $stage1 = \App\Models\Application::with('user')
             ->where('stage', $stage)
-            ->get();
+            ->orderBy('status', 'asc')
+            ->paginate(10);
 
         // Render the table as HTML and return as a response
         $html = view('partials.stage-table', compact('stage1'))->render();

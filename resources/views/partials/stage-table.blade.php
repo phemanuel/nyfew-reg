@@ -5,6 +5,7 @@
         </div>
     @else
         <table class="table table-hover c_table theme-color">
+             {{$stage1->links()}}
         <thead>
             <tr>
                 <th>Actions</th>
@@ -35,21 +36,33 @@
                         </button>
                     </td>
                     <td>{{ $d->status }}</td>
-                    <td>{{ $d->stage }}</td>
-                    <td>{{ $d->user->surname . " " . $d->user->first_name . " " . $d->user->other_name }}</td>
-                    <td>{{ $d->user->email }}</td>
-                    <td>{{ $d->user->mobile_no }}</td>
+                    <td>{{ $d->user->current_stage ?? '1'}}</td>
+                   <td>
+                        {{ 
+                            ($d->user->surname ?? 'n/a') . ' ' . 
+                            ($d->user->first_name ?? 'n/a') . ' ' . 
+                            ($d->user->other_name ?? 'n/a') 
+                        }}
+                    </td>
+                    <td>{{ $d->user->email ?? 'n/a' }}</td>
+                    <td>{{ $d->user->mobile_no ?? 'n/a' }}</td>
                     <td>{{ $d->comment }}</td>
                     @if(in_array($d->stage, [2, 3, 4]) && $d->reviewed_at)
                         <td>{{ \Carbon\Carbon::parse($d->reviewed_at)->format('F j, Y g:i A') }}</td>
                     @else
                         <!-- <td>—</td> -->
                     @endif
-                    <td>{{ \Carbon\Carbon::parse($d->user->reg_date)->format('F j, Y') ?? 'N/A' }}</td>
+                    <td>
+                        {{ $d->user && $d->user->created_at ? \Carbon\Carbon::parse($d->user->created_at)->format('F j, Y') : 'n/a' }}
+                    </td>
                 </tr>
             @endforeach
         </tbody>
         </table>
+         {{$stage1->links()}}
+       
+        
+        
 
         {{-- Modals for each user --}}
         @foreach($stage1 as $d)
@@ -64,25 +77,24 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-
+                @php
+                    $userImage = $d->user->image ?? 'blank.png';
+                    $imagePath = $userImage && file_exists(public_path('uploads/' . $userImage))
+                        ? asset('public/uploads/' . $userImage)
+                        : asset('public/uploads/blank.png');
+                @endphp
                             <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
                                 <div class="text-center mb-4">
-                                    @if(!empty($d->user->image))
-                                        <img src="{{ asset('uploads/' . $d->user->image) }}"
+                                    <img src="{{ $imagePath }}"
                                              class="rounded-circle shadow"
                                              style="width: 120px; height: 120px; object-fit: cover;"
                                              alt="Profile Image">
-                                    @else
-                                        <img src="{{ asset('uploads/blank.jpg') }}"
-                                             class="rounded-circle shadow"
-                                             style="width: 120px; height: 120px; object-fit: cover;"
-                                             alt="No Image">
-                                    @endif
+                                    
                                     <h5 class="mt-3">{{ $d->user->surname ?? 'N/A' }} {{ $d->user->first_name ?? '' }} {{ $d->user->other_name ?? '' }}</h5>
                                 </div>
 
                                 <table class="table table-bordered table-striped">
-                                    <tr><th>Current Stage:</th><td>{{ $d->user->current_stage ?? 'N/A' }}</td></tr>
+                                    <tr><th>Current Stage:</th><td>{{ $d->user->current_stage ?? '1' }}</td></tr>
                                     <tr><th>Email:</th><td>{{ $d->user->email ?? 'N/A' }}</td></tr>
                                     <tr><th>Mobile No:</th><td>{{ $d->user->mobile_no ?? 'N/A' }}</td></tr>
                                     <tr><th>WhatsApp No:</th><td>{{ $d->user->mobile_no1 ?? 'N/A' }}</td></tr>
@@ -96,10 +108,17 @@
                                     <tr><th>Twitter:</th><td>{{ $d->user->twitter ?? 'N/A' }}</td></tr>
                                     <tr><th>Field of Interest:</th><td>{{ $d->user->interest ?? 'N/A' }}</td></tr>
                                     <tr><th>Knowledge level:</th><td>{{ $d->user->qst1 ?? 'N/A' }}</td></tr>
+                                    <tr><th>Do you have professional experience as a <strong>Fashion Illustrator</strong>?:</th><td>{{ $d->user->interest_fashion ?? 'N/A' }}</td></tr>
                                     <tr><th>Do you have knowledge of any other profession?</th><td>{{ $d->user->qst2 ?? 'N/A' }}</td></tr>
                                     <tr><th>If Yes, state the profession:</th><td>{{ $d->user->if_yes_qst2 ?? 'N/A' }}</td></tr>
-                                    <tr><th>Reg Date:</th><td>{{ $d->user->reg_date ? \Carbon\Carbon::parse($d->user->reg_date)->format('F j, Y') : 'N/A' }}</td></tr>
+                                   <tr>
+                                        <th>Reg Date:</th>
+                                        <td>
+                                            {{ $d->user && $d->user->reg_date ? \Carbon\Carbon::parse($d->user->reg_date)->format('F j, Y') : 'N/A' }}
+                                        </td>
+                                    </tr>
                                 </table>
+                                
                             </div>
                         </div>
                     </div>
@@ -122,7 +141,7 @@
 
                             <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
                                 <video width="100%" controls class="mb-3">
-                                    <source src="{{ url('video/' . $d->content) }}" type="video/mp4">
+                                    <source src="{{ url('public/video/' . $d->content) }}" type="video/mp4">
                                 </video>
 
                                 <div class="form-group">

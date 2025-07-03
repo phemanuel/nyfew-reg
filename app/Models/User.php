@@ -30,6 +30,7 @@ class User extends Authenticatable
         'dob',
         'mobile_no1',
         'interest',
+        'interest_fashion',
         'current_stage',
         'instagram',
         'facebook',

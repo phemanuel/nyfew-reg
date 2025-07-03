@@ -425,11 +425,9 @@
 
 
 <script>
-    $('#stageSelect').on('change', function () {
-        const stage = $(this).val();
-
+    function fetchStageData(stage, page = 1) {
         $.ajax({
-            url: "{{ route('fetch.stage.data', '') }}/" + stage,
+            url: "{{ url('fetch-stage-data') }}/" + stage + "?page=" + page,
             type: 'GET',
             beforeSend: function () {
                 $('#stageTable').html('<div class="text-center my-3">Loading...</div>');
@@ -441,6 +439,20 @@
                 $('#stageTable').html('<div class="text-danger">Error loading data.</div>');
             }
         });
+    }
+
+    // Load data when stage is changed
+    $('#stageSelect').on('change', function () {
+        const stage = $(this).val();
+        fetchStageData(stage);
+    });
+
+    // Delegate click events for pagination links
+    $(document).on('click', '#stageTable .pagination a', function (e) {
+        e.preventDefault();
+        const stage = $('#stageSelect').val();
+        const page = $(this).attr('href').split('page=')[1];
+        fetchStageData(stage, page);
     });
 </script>
 
