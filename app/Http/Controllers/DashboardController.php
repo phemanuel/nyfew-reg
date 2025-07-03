@@ -6,6 +6,7 @@ use App\Models\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 
 class DashboardController extends Controller
 {
@@ -282,6 +283,62 @@ class DashboardController extends Controller
 
         // Return a success message
         return response()->json(['message' => 'Review updated successfully']);
+    }
+
+    public function exportStageData($stage)
+    {
+        $applications = \App\Models\Application::with('user')
+            ->where('stage', $stage)
+            ->orderBy('status', 'asc')
+            ->get();
+
+        $csv = [];
+        $csv[] = [ 'Current Stage','Full Name', 'Email', 'Phone No' , 'Whatsapp No', 'Address' 
+        , 'Gender', 'Dob' ,'Instagram', 'Facebook', 'Snapchat', 'Twitter','Occupation', 'Field Of Interest','Knowledge Level', 'Fashion Illustrator',
+         'Other Profession', 'State Profession','Date','Status']; // headers
+
+        foreach ($applications as $app) {
+            $user = $app->user;
+
+            $csv[] = [
+                $user->current_stage ?? 'n/a',
+                $user ? $user->surname . ' ' . $user->first_name . ' ' . $user->other_name : 'n/a',
+                $user->email ?? 'n/a',
+                $user->mobile_no ?? 'n/a',
+                $user->whatsapp_no ?? $user->mobile_no ?? 'n/a',
+                $user->address ?? 'n/a',
+                $user->gender ?? 'n/a',
+                $user->dob ?? 'n/a',
+                $user->instagram ?? 'n/a',
+                $user->facebook ?? 'n/a',
+                $user->snapchat ?? 'n/a',
+                $user->twitter ?? 'n/a',
+                $user->occupation ?? 'n/a',
+                $user->interest ?? 'n/a',
+                $user->qst1 ?? 'n/a',
+                $user->interest_fashion ?? 'n/a',
+                $user->qst2 ?? 'n/a',
+                $user->if_yes_qst2 ?? 'n/a',
+                $user && $user->created_at ? $user->created_at->format('Y-m-d H:i') : 'n/a',
+                $app->status,
+            ];
+        }
+
+        $filename = 'stage_' . $stage . '_export_' . date('Ymd_His') . '.csv';
+        $handle = fopen('php://temp', 'r+');
+
+        foreach ($csv as $row) {
+            fputcsv($handle, $row);
+        }
+
+        rewind($handle);
+        $content = stream_get_contents($handle);
+        fclose($handle);
+
+        return Response::make($content, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename={$filename}",
+        ]);
     }
 
 

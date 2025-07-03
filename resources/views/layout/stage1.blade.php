@@ -192,6 +192,21 @@
                     @enderror
                 </div>
             </div>
+            
+            <!-- Knowledge Level -->
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <label for="qst1" class="form-label">Select the knowledge level</label>
+                    <select class="form-control" id="qst1" name="qst1" required>
+                        <option value="">Select Knowledge Level</option>
+                        <option value="BEGINNER" {{ old('qst1', auth()->user()->qst1) == 'BEGINNER' ? 'selected' : '' }}>BEGINNER</option>
+                        <option value="PROFESSIONAL" {{ old('qst1', auth()->user()->qst1) == 'PROFESSIONAL' ? 'selected' : '' }}>PROFESSIONAL</option>
+                    </select>
+                    @error('qst1')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
 
             <!-- Fashion illustrator -->
             <div class="row mb-3" id="fashionIllustratorRow" style="display: none;">
@@ -210,20 +225,6 @@
                 </div>
             </div>
 
-            <!-- Knowledge Level -->
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <label for="qst1" class="form-label">Select the knowledge level</label>
-                    <select class="form-control" id="qst1" name="qst1" required>
-                        <option value="">Select Knowledge Level</option>
-                        <option value="BEGINNER" {{ old('qst1', auth()->user()->qst1) == 'BEGINNER' ? 'selected' : '' }}>BEGINNER</option>
-                        <option value="PROFESSIONAL" {{ old('qst1', auth()->user()->qst1) == 'PROFESSIONAL' ? 'selected' : '' }}>PROFESSIONAL</option>
-                    </select>
-                    @error('qst1')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-            </div>
 
             <!-- Other Profession -->
             <div class="row mb-3">

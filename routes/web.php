@@ -69,6 +69,8 @@ Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPas
     ->name('fetch.stage.data');
     Route::post('/video/review', [DashboardController::class, 'videoReview'])
     ->name('video.review');
+    Route::get('/export-stage-data/{stage}', [DashboardController::class, 'exportStageData'])
+    ->name('export.stage.data');
 
     
    
