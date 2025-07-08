@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -20,6 +21,15 @@ class DashboardController extends Controller
         $stage1 = Application::where('stage', 1)
         ->orderBy('status', 'asc')
         ->paginate(10);
+
+        $interestsCount = Application::select('users.interest', DB::raw('count(*) as total'))
+        ->join('users', 'applications.user_id', '=', 'users.id')
+        ->where('applications.stage', 1)
+        ->where('applications.status', 'Approved')
+        ->where('users.user_type', 2)
+        ->groupBy('users.interest')
+        ->orderBy('users.interest')
+        ->get();
 
         $stage1Count = Application::where('stage', 1)->count();
         $stage2Count = Application::where('stage', 2)->count();
@@ -35,7 +45,7 @@ class DashboardController extends Controller
         ];
 
         return view('layout.user-dashboard', compact('stageStatuses','application','stage1',
-         'stage1Count', 'stage2Count', 'stage3Count', 'stage4Count'));
+         'stage1Count', 'stage2Count', 'stage3Count', 'stage4Count','interestsCount'));
     }
 
     public function edit($id)
@@ -340,7 +350,6 @@ class DashboardController extends Controller
             'Content-Disposition' => "attachment; filename={$filename}",
         ]);
     }
-
 
     
 }

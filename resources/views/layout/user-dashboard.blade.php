@@ -14,6 +14,9 @@
 
 <!-- Custom Css -->
 <link rel="stylesheet" href="{{asset('dashboard/assets/css/style.min.css')}}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<!-- Bootstrap 5 CSS (in <head>) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Bootstrap CSS -->
 <style>
@@ -88,9 +91,22 @@
                         <h2>
                             1                            
                         </h2>
-                        <small class="d-block text-muted mb-2" style="font-size: 12px; color: #6c757d;">
-                            <strong style="font-size: 14px; color: #333;">Online Registration</strong>                            
-                            &rarr; <span style="font-weight: bold; color: #007bff;">{{$stage1Count}}</span>                             
+                        <small class="d-block mb-3" style="font-size: 13px; color: #555;">
+                            <strong style="font-size: 14px; color: #333;">Online Registration</strong>
+                            &rarr; <span style="font-weight: bold; color: #007bff;">{{ $stage1Count }}</span>
+
+                            <div class="mt-1">
+                                <i class="fa fa-check-circle text-success me-1"></i>
+                                <span class="me-3">
+                                    Completed Entries: <strong>{{ $stage2Count }}</strong>
+                                    <button class="btn btn-sm btn-outline-primary ms-2" data-bs-toggle="modal" data-bs-target="#interestModal">
+                                        <i class="fas fa-chart-pie"></i> View Stats
+                                    </button>
+                                </span><br>
+
+                                <i class="fa fa-times-circle text-danger me-1"></i>
+                                <span>Not Completed Entries: <strong>{{ $stage1Count - $stage2Count }}</strong></span>
+                            </div>
                         </small>
                         <div class="progress">
                             <div class="progress-bar l-amber" role="progressbar" aria-valuenow="{{$stage1Count}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $stage1Count * 10 }}%;"></div>
@@ -107,12 +123,20 @@
                         <h2>
                             2                            
                         </h2>
-                        <small class="d-block text-muted mb-2" style="font-size: 12px; color: #6c757d;">
-                            <strong style="font-size: 14px; color: #333;">Craft Video</strong>                            
-                            &rarr; <span style="font-weight: bold; color: #007bff;">{{$stage2Count}}</span>                             
+                        <small class="d-block mb-3" style="font-size: 13px; color: #555;">
+                            <strong style="font-size: 14px; color: #333;">Craft Video</strong>
+                            &rarr; <span style="font-weight: bold; color: #007bff;">0</span>
+
+                            <div class="mt-1">
+                                <i class="fa fa-check-circle text-success me-1"></i>
+                                <span class="me-3">Completed Entries: <strong>0</strong></span><br>
+
+                                <i class="fa fa-times-circle text-danger me-1"></i>
+                                <span>Not Completed Entries: <strong>0</strong></span>
+                            </div>
                         </small>
                         <div class="progress">
-                            <div class="progress-bar l-blue" role="progressbar" aria-valuenow="{{$stage2Count}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $stage2Count * 10 }}%;"></div>
+                            <div class="progress-bar l-blue" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                         </div>
                     </div>
                 </div>
@@ -126,12 +150,20 @@
                         <h2>
                             3                            
                         </h2>
-                        <small class="d-block text-muted mb-2" style="font-size: 12px; color: #6c757d;">
-                            <strong style="font-size: 14px; color: #333;">Business Pitch</strong>                            
-                            &rarr; <span style="font-weight: bold; color: #007bff;">{{$stage3Count}}</span>                             
+                        <small class="d-block mb-3" style="font-size: 13px; color: #555;">
+                            <strong style="font-size: 14px; color: #333;">Business Pitch</strong>
+                            &rarr; <span style="font-weight: bold; color: #007bff;">0</span>
+
+                            <div class="mt-1">
+                                <i class="fa fa-check-circle text-success me-1"></i>
+                                <span class="me-3">Completed Entries: <strong>0</strong></span><br>
+
+                                <i class="fa fa-times-circle text-danger me-1"></i>
+                                <span>Not Completed Entries: <strong>0</strong></span>
+                            </div>
                         </small>
                         <div class="progress">
-                            <div class="progress-bar l-purple" role="progressbar" aria-valuenow="{{$stage3Count}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $stage3Count * 10 }}%;"></div>
+                            <div class="progress-bar l-purple" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{ $stage3Count * 10 }}%;"></div>
                         </div>
                     </div>
                 </div>
@@ -145,12 +177,20 @@
                         <h2>
                             4                            
                         </h2>
-                        <small class="d-block text-muted mb-2" style="font-size: 12px; color: #6c757d;">
-                            <strong style="font-size: 14px; color: #333;">Final Audition</strong>                            
-                            &rarr; <span style="font-weight: bold; color: #007bff;">{{$stage4Count}}</span>                             
+                        <small class="d-block mb-3" style="font-size: 13px; color: #555;">
+                            <strong style="font-size: 14px; color: #333;">Final Audition</strong>
+                            &rarr; <span style="font-weight: bold; color: #007bff;">0</span>
+
+                            <div class="mt-1">
+                                <i class="fa fa-check-circle text-success me-1"></i>
+                                <span class="me-3">Completed Entries: <strong>0</strong></span><br>
+
+                                <i class="fa fa-times-circle text-danger me-1"></i>
+                                <span>Not Completed Entries: <strong>0</strong></span>
+                            </div>
                         </small>
                         <div class="progress">
-                            <div class="progress-bar l-green" role="progressbar" aria-valuenow="{{$stage4Count}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $stage4Count * 10 }}%;"></div>
+                            <div class="progress-bar l-green" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{ $stage4Count * 10 }}%;"></div>
                         </div>
                     </div>
                 </div>
@@ -402,32 +442,37 @@
 
 @endif
 
+<!-- Interest Stats Modal -->
+<div class="modal fade" id="interestModal" tabindex="-1" aria-labelledby="interestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="interestModalLabel">
+                    <i class="fas fa-chart-pie me-1 text-primary"></i> Approved Entries by Interest
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
 
-<!-- Jquery Core Js --> 
- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
- 
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Interest Labels (Left) -->
+                    <div class="col-md-6">
+                        <div id="interestLabels" class="d-flex flex-column gap-2 ps-3"></div>
+                    </div>
 
-<!-- jQuery first -->
-<script src="{{ asset('dashboard/assets/bundles/libscripts.bundle.js') }}"></script>
+                    <!-- Pie Chart (Right) -->
+                    <div class="col-md-6 text-center">
+                        <canvas id="interestChart" height="350" style="max-width: 80%;"></canvas>
+                        <div class="mt-4 d-flex flex-wrap justify-content-center gap-3" id="colorIndicators"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-<!-- Vendor scripts (like dropdowns, slimscroll, etc) -->
-<script src="{{ asset('dashboard/assets/bundles/vendorscripts.bundle.js') }}"></script>
 
-<!-- Any plugin bundles -->
-<script src="{{ asset('dashboard/assets/bundles/jvectormap.bundle.js') }}"></script>
-<script src="{{ asset('dashboard/assets/bundles/sparkline.bundle.js') }}"></script>
-<script src="{{ asset('dashboard/assets/bundles/c3.bundle.js') }}"></script>
-
-<!-- Main scripts -->
-<script src="{{ asset('dashboard/assets/bundles/mainscripts.bundle.js') }}"></script>
-
-<!-- Page-specific scripts -->
-<script src="{{ asset('dashboard/assets/js/pages/index.js') }}"></script>
-
-</body>
-
-</html>
 
 {{-- Modals for each user --}}
         @foreach($stage1 as $d)
@@ -537,6 +582,35 @@
 
             @endif
         @endforeach
+<!-- Jquery Core Js --> 
+ <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+ 
+
+<!-- jQuery first -->
+<script src="{{ asset('dashboard/assets/bundles/libscripts.bundle.js') }}"></script>
+
+
+<!-- Vendor scripts (like dropdowns, slimscroll, etc) -->
+<script src="{{ asset('dashboard/assets/bundles/vendorscripts.bundle.js') }}"></script>
+
+<!-- Any plugin bundles -->
+<script src="{{ asset('dashboard/assets/bundles/jvectormap.bundle.js') }}"></script>
+<script src="{{ asset('dashboard/assets/bundles/sparkline.bundle.js') }}"></script>
+<script src="{{ asset('dashboard/assets/bundles/c3.bundle.js') }}"></script>
+
+<!-- Main scripts -->
+<script src="{{ asset('dashboard/assets/bundles/mainscripts.bundle.js') }}"></script>
+
+<!-- Page-specific scripts -->
+<script src="{{ asset('dashboard/assets/js/pages/index.js') }}"></script>
+<!-- Bootstrap 5 JS Bundle (before </body>) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
+
+
 
 <script>
     function fetchStageData(stage, page = 1) {
@@ -576,6 +650,102 @@
     window.location.href = `/export-stage-data/${stage}`;
 }
 </script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const interestsData = @json($interestsCount);
+
+    const bgColors = [
+        '#007bff', // Fashion Designing
+        '#28a745', // Hair Styling
+        '#ffc107', // Make-Up Artistry
+        '#dc3545', // Modelling
+        '#6f42c1', // Photography
+        '#20c997'  // Shoe Making
+    ];
+
+    const iconMap = {
+        "FASHION DESIGNING": "fas fa-tshirt",
+        "HAIR STYLING": "fas fa-scissors",
+        "MAKE-UP ARTISTRY": "fas fa-air-freshener",
+        "MODELLING": "fas fa-walking",
+        "PHOTOGRAPHY": "fas fa-camera",
+        "SHOE MAKING": "fas fa-shoe-prints"
+    };
+
+    const interestLabelsContainer = document.getElementById('interestLabels');
+    const colorIndicatorsContainer = document.getElementById('colorIndicators');
+
+    const labels = [];
+    const data = [];
+
+    interestsData.forEach((item, index) => {
+        const interest = item.interest?.toUpperCase() ?? 'UNSPECIFIED';
+        const count = item.total;
+        const color = bgColors[index % bgColors.length];
+        const iconClass = iconMap[interest] || 'fas fa-question-circle';
+
+        labels.push(interest);
+        data.push(count);
+
+        // Label with icon and count
+        const badge = document.createElement('div');
+        badge.className = 'd-flex align-items-center mb-2';
+
+        badge.innerHTML = `
+            <i class="${iconClass} me-2 text-secondary" style="font-size: 16px;"></i>
+            <span class="me-2 fw-semibold">${interest}</span>
+            <span class="badge rounded-pill text-white" style="background-color:${color};">${count}</span>
+        `;
+
+        interestLabelsContainer.appendChild(badge);
+
+        // Color legend bar
+        const colorBar = document.createElement('div');
+        colorBar.className = 'd-flex align-items-center mb-1';
+        colorBar.innerHTML = `
+            <div style="width: 15px; height: 15px; background-color: ${color}; border-radius: 3px;" class="me-2"></div>
+            <small>${interest}</small>
+        `;
+        colorIndicatorsContainer.appendChild(colorBar);
+    });
+
+    // Render Pie Chart
+    const ctx = document.getElementById('interestChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: bgColors.slice(0, labels.length),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.parsed;
+                            const total = context.chart._metasets[context.datasetIndex].total;
+                            const percent = ((value / total) * 100).toFixed(1);
+                            return `${label}: ${value} (${percent}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+
 
 
 
