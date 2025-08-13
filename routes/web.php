@@ -42,6 +42,10 @@ Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPas
     ->name('signup');
     Route::post('signup', [AuthController::class,'signupAction'])
     ->name('signup.action');
+    Route::get('/password-update', [AuthController::class, 'passwordUpdate'])
+    ->name('password-update');
+    Route::post('/password-update', [AuthController::class, 'passwordUpdateAction'])
+    ->name('password-update.action');
     Route::get('logout', [AuthController::class, 'logout'])->middleware('auth')
     ->name('logout');
 
@@ -69,13 +73,6 @@ Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPas
     ->name('fetch.stage.data');
     Route::post('/video/review', [DashboardController::class, 'videoReview'])
     ->name('video.review');
-    Route::get('/export-stage-data/{stage}', [DashboardController::class, 'exportStageData'])
-    ->name('export.stage.data');
-
-    
-   
-
-
 
     //----send mail route
     Route::get('send-mail', [MailController::class, 'index'])

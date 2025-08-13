@@ -30,14 +30,50 @@ class AuthController extends Controller
 
     public  function signUp()
     {
-        $dueDate = "2025-05-31";
+        $dueDate = "2025-08-18";
+        $regDate = "2025-07-01";
         $currentDate = date('Y-m-d');
 
+        if($currentDate < $regDate){
+            return redirect()->back()->with('error', 'Registration has not started, please check back soon.');
+        }
+        
         if($currentDate > $dueDate){
             return redirect()->back()->with('error', 'Registration Closed.');
         }
 
         return view('auth.auth-signup');
+    }
+    
+    public function passwordUpdate()
+    {
+        return view('auth.password-update');
+    }
+    
+    public function passwordUpdateAction(Request $request)
+    {
+        // Validate inputs
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:8'
+        ]);
+    
+        // Check if user exists
+        $user = User::where('email', $request->email)->first();
+    
+        if (!$user) {
+            return back()
+                ->withErrors(['email' => 'The email address you entered is invalid, you can signup with a valid email.'])
+                ->withInput();
+        }
+    
+        // Update password
+        $user->password = Hash::make($request->password);
+        $user->save();
+    
+        Auth::login($user);
+
+        return redirect()->route('user-dashboard')->with('success', 'Password updated successfully and you are now logged in.');
     }
 
     public function signupAction(Request $request)
@@ -66,6 +102,7 @@ class AuthController extends Controller
                 'current_stage' => 1,
                 'user_type' => 2,
                 'login_attempts' => 0,
+                'applicant_type' => 'NEW',
                 'reg_date' => now(),
             ]);
 

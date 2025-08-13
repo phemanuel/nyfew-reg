@@ -47,7 +47,7 @@ class DashboardController extends Controller
         return view('layout.user-dashboard', compact('stageStatuses','application','stage1',
          'stage1Count', 'stage2Count', 'stage3Count', 'stage4Count','interestsCount'));
     }
-
+    
     public function edit($id)
     {
         $user = User::findOrFail($id);
@@ -146,8 +146,8 @@ class DashboardController extends Controller
     
     public function stage2Edit($id)
     {
-        $startDate = "2025-08-01";
-        $dueDate = "2025-08-17";
+        $startDate = "2025-08-25";
+        $dueDate = "2025-09-30";
         $currentDate = date('Y-m-d');
 
         if ($currentDate < $startDate) {
@@ -350,6 +350,7 @@ class DashboardController extends Controller
             'Content-Disposition' => "attachment; filename={$filename}",
         ]);
     }
+
 
     
 }
