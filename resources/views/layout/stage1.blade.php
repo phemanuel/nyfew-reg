@@ -28,15 +28,6 @@
     <!-- Title -->
     <h4 style="margin: 0; font-weight: bold; color: white; font-family: 'Arial', sans-serif;">Online Registration Update</h4> 
 </div>
-@if(session('success'))
-						<div class="alert alert-success">
-							{{ session('success') }}
-						</div>
-            @elseif(session('error'))
-						<div class="alert alert-danger">
-							{{ session('error') }}
-						</div>           
-						@endif
         <hr>
                 <form id="updateForm"  method="POST" action="{{ route('user.updateStage1', ['id' => auth()->user()->id]) }}" enctype="multipart/form-data">
     @csrf
@@ -55,21 +46,21 @@
             <!-- Surname, First Name, Other Name -->
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label for="surname" class="form-label">Surname</label>
+                    <label for="surname" class="form-label">Surname <span style="color: red;">*</span></label>
                     <input type="text" class="form-control" id="surname" name="surname" value="{{ old('surname', auth()->user()->surname) }}" required>
                     @error('surname')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
                 <div class="col-md-4">
-                    <label for="first_name" class="form-label">First Name</label>
+                    <label for="first_name" class="form-label">First Name <span style="color: red;">*</span></label>
                     <input type="text" class="form-control" id="first_name" name="first_name" value="{{ old('first_name', auth()->user()->first_name) }}" required>
                     @error('first_name')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
                 <div class="col-md-4">
-                    <label for="other_name" class="form-label">Other Name</label>
+                    <label for="other_name" class="form-label">Other Name <span style="color: red;">*</span></label>
                     <input type="text" class="form-control" id="other_name" name="other_name" value="{{ old('other_name', auth()->user()->other_name) }}" required>
                     @error('other_name')
                         <small class="text-danger">{{ $message }}</small>
@@ -80,14 +71,14 @@
             <!-- Mobile Numbers -->
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="mobile_no" class="form-label">Mobile No</label>
+                    <label for="mobile_no" class="form-label">Mobile No <span style="color: red;">*</span></label>
                     <input type="text" class="form-control" id="mobile_no" name="mobile_no" value="{{ old('mobile_no', auth()->user()->mobile_no) }}" required>
                     @error('mobile_no')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
                 <div class="col-md-6">
-                    <label for="mobile_no1" class="form-label">WhatsApp No</label>
+                    <label for="mobile_no1" class="form-label">WhatsApp No <span style="color: red;">*</span></label>
                     <input type="text" class="form-control" id="mobile_no1" name="mobile_no1" value="{{ old('mobile_no1', auth()->user()->mobile_no1) }}" required>
                     @error('mobile_no1')
                         <small class="text-danger">{{ $message }}</small>
@@ -98,7 +89,7 @@
             <!-- Gender and DOB -->
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="gender" class="form-label">Gender</label>
+                    <label for="gender" class="form-label">Gender <span style="color: red;">*</span></label>
                     <select class="form-control" id="gender" name="gender" required>
                         <option value="">Select Gender</option>
                         <option value="male" {{ old('gender', auth()->user()->gender) == 'male' ? 'selected' : '' }}>Male</option>
@@ -109,7 +100,7 @@
                     @enderror
                 </div>
                 <div class="col-md-6">
-                    <label for="dob" class="form-label">Date of Birth</label>
+                    <label for="dob" class="form-label">Date of Birth <span style="color: red;">*</span></label>
                     <input type="date" class="form-control" id="dob" name="dob" value="{{ old('dob', auth()->user()->dob) }}" required>
                     @error('dob')
                         <small class="text-danger">{{ $message }}</small>
@@ -120,7 +111,7 @@
             <!-- Address -->
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <label for="address" class="form-label">Address</label>
+                    <label for="address" class="form-label">Address <span style="color: red;">*</span></label>
                     <textarea class="form-control" id="address" name="address" rows="3" required>{{ old('address', auth()->user()->address) }}</textarea>
                     @error('address')
                         <small class="text-danger">{{ $message }}</small>
@@ -131,7 +122,7 @@
             <!-- Occupation -->
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <label for="occupation" class="form-label">Occupation</label>
+                    <label for="occupation" class="form-label">Occupation <span style="color: red;">*</span></label>
                     <input type="text" class="form-control" id="occupation" name="occupation" value="{{ old('occupation', auth()->user()->occupation) }}" required>
                     @error('occupation')
                         <small class="text-danger">{{ $message }}</small>
@@ -174,10 +165,10 @@
                 </div>
             </div>
 
-            <!-- Field of Interest -->
+             <!-- Field of Interest -->
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <label for="interest" class="form-label">Field of Interest</label>
+                    <label for="interest" class="form-label">Field of Interest <span style="color: red;">*</span></label>
                     <select class="form-control" id="interest" name="interest" required>
                         <option value="">Select Interest</option>
                         @php
@@ -193,10 +184,10 @@
                 </div>
             </div>
             
-            <!-- Knowledge Level -->
+             <!-- Knowledge Level -->
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <label for="qst1" class="form-label">Select the knowledge level</label>
+                    <label for="qst1" class="form-label">Select the knowledge level <span style="color: red;">*</span></label>
                     <select class="form-control" id="qst1" name="qst1" required>
                         <option value="">Select Knowledge Level</option>
                         <option value="BEGINNER" {{ old('qst1', auth()->user()->qst1) == 'BEGINNER' ? 'selected' : '' }}>BEGINNER</option>
@@ -214,7 +205,7 @@
                     <label for="interest_fashion" class="form-label">
                         Do you have professional experience as a <strong>Fashion Illustrator</strong>?
                     </label>
-                    <select class="form-control" id="interest_fashion" name="interest_fashion" required>
+                    <select class="form-control" id="interest_fashion" name="interest_fashion">
                         <option value="">Select your answer</option>
                         <option value="YES" {{ old('interest_fashion', auth()->user()->interest_fashion) == 'YES' ? 'selected' : '' }}>YES</option>
                         <option value="NO" {{ old('interest_fashion', auth()->user()->interest_fashion) == 'NO' ? 'selected' : '' }}>NO</option>
@@ -225,11 +216,25 @@
                 </div>
             </div>
 
+            <!-- Knowledge Level -->
+            <!--<div class="row mb-3">-->
+            <!--    <div class="col-md-12">-->
+            <!--        <label for="qst1" class="form-label">Select the knowledge level</label>-->
+            <!--        <select class="form-control" id="qst1" name="qst1" required>-->
+            <!--            <option value="">Select Knowledge Level</option>-->
+            <!--            <option value="BEGINNER" {{ old('qst1', auth()->user()->qst1) == 'BEGINNER' ? 'selected' : '' }}>BEGINNER</option>-->
+            <!--            <option value="PROFESSIONAL" {{ old('qst1', auth()->user()->qst1) == 'PROFESSIONAL' ? 'selected' : '' }}>PROFESSIONAL</option>-->
+            <!--        </select>-->
+            <!--        @error('qst1')-->
+            <!--            <small class="text-danger">{{ $message }}</small>-->
+            <!--        @enderror-->
+            <!--    </div>-->
+            <!--</div>-->
 
             <!-- Other Profession -->
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <label for="qst2" class="form-label">Do you have knowledge of any other profession?</label>
+                    <label for="qst2" class="form-label">Do you have knowledge of any other profession?<span style="color: red;">*</span></label>
                     <select class="form-control" id="qst2" name="qst2" required>                        
                         <option value="YES" {{ old('qst2', auth()->user()->qst2) == 'YES' ? 'selected' : '' }}>YES</option>
                         <option value="NO" {{ old('qst2', auth()->user()->qst2) == 'NO' ? 'selected' : '' }}>NO</option>
@@ -251,25 +256,25 @@
             </div>
 
             <!-- Accommodation -->
-            <!-- <div class="row mb-3">
-                <div class="col-md-12">
-                    <label for="qst3" class="form-label">Do you want accommodation?</label>
-                    <select class="form-control" id="qst3" name="qst3" required>                        
-                        <option value="YES" {{ old('qst3', auth()->user()->qst3) == 'YES' ? 'selected' : '' }}>YES</option>
-                        <option value="NO" {{ old('qst3', auth()->user()->qst3) == 'NO' ? 'selected' : '' }}>NO</option>
-                    </select>
-                    @error('qst3')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-            </div> -->
+            <!--<div class="row mb-3">-->
+            <!--    <div class="col-md-12">-->
+            <!--        <label for="qst3" class="form-label">Do you want accommodation?</label>-->
+            <!--        <select class="form-control" id="qst3" name="qst3" required>                        -->
+            <!--            <option value="YES" {{ old('qst3', auth()->user()->qst3) == 'YES' ? 'selected' : '' }}>YES</option>-->
+            <!--            <option value="NO" {{ old('qst3', auth()->user()->qst3) == 'NO' ? 'selected' : '' }}>NO</option>-->
+            <!--        </select>-->
+            <!--        @error('qst3')-->
+            <!--            <small class="text-danger">{{ $message }}</small>-->
+            <!--        @enderror-->
+            <!--    </div>-->
+            <!--</div>-->
 
-            <!-- <div class="row mb-3">
-                <div class="col-md-12">
-                    <label class="form-label">If Yes</label>
-                    <p><strong>N.B:</strong> Accommodation for 7 DAYS costs ₦20,000.</p>
-                </div>
-            </div> -->
+            <!--<div class="row mb-3">-->
+            <!--    <div class="col-md-12">-->
+            <!--        <label class="form-label">If Yes</label>-->
+            <!--        <p><strong>N.B:</strong> Accommodation for 7 DAYS costs ₦20,000.</p>-->
+            <!--    </div>-->
+            <!--</div>-->
 
             <!-- Profile Image -->
             <div class="row mb-3">
@@ -288,7 +293,7 @@
     <br>
 
     <div class="modal-footer">
-    <button type="button" class="btn btn-danger waves-effect" onclick="window.location.href='{{ route('user-dashboard') }}'">Close</button>&nbsp;
+        <a href="{{route('user-dashboard')}}" class="btn btn-danger waves-effect" data-dismiss="modal">Close</a>&nbsp;
         <button type="submit" class="btn btn-primary">Save Changes</button>
     </div>
 </form>
@@ -303,8 +308,7 @@
     <!-- JS -->
     <script src="{{asset('form1/vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('form1/js/main.js')}}"></script>
-    
-</body>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -336,8 +340,6 @@
         toggleIfYesField(); // Run on page load too
     });
 </script>
-<!-- jQuery Script -->
-
 <script>
     function toggleFashionField() {
         const interest = $('#interest').val();

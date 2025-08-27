@@ -46,6 +46,12 @@ Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPas
     ->name('password-update');
     Route::post('/password-update', [AuthController::class, 'passwordUpdateAction'])
     ->name('password-update.action');
+    Route::get('wait-list', [AuthController::class, 'waitList'])
+    ->name('wait-list');
+    Route::get('wait-list-info', [AuthController::class, 'waitListInfo'])
+    ->name('wait-list-info');
+    Route::post('wait-list', [AuthController::class, 'waitListAction'])
+    ->name('wait-list.action');
     Route::get('logout', [AuthController::class, 'logout'])->middleware('auth')
     ->name('logout');
 
@@ -61,6 +67,10 @@ Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPas
     ->name('stage2');   
     Route::put('user/application/updateStage2/{id}', [DashboardController::class,'updateStage2'])->middleware('auth')
     ->name('user.updateStage2');
+    Route::get('user/application/stage2-p2/{id}', [DashboardController::class,'stage2P2Edit'])->middleware('auth')
+    ->name('stage2-p2');   
+    Route::put('user/application/updateStage2-p2/{id}', [DashboardController::class,'updateStage2P2'])->middleware('auth')
+    ->name('user.updateStage2-p2');
     Route::get('user/application/stage3/{id}', [DashboardController::class,'stage3Edit'])->middleware('auth')
     ->name('stage3');
     Route::put('user/application/updateStage3/{id}', [DashboardController::class,'updateStage3'])->middleware('auth')
@@ -73,6 +83,11 @@ Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPas
     ->name('fetch.stage.data');
     Route::post('/video/review', [DashboardController::class, 'videoReview'])
     ->name('video.review');
+
+    
+   
+
+
 
     //----send mail route
     Route::get('send-mail', [MailController::class, 'index'])

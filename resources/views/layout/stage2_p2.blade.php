@@ -69,7 +69,7 @@
     <!-- Icon -->
     <i class="fa fa-edit" style="font-size: 24px; margin-right: 15px; color: white;"></i> 
     <!-- Title -->
-    <h4 style="margin: 0; font-weight: bold; color: white; font-family: 'Arial', sans-serif;">Story Telling Video Upload</h4> 
+    <h4 style="margin: 0; font-weight: bold; color: white; font-family: 'Arial', sans-serif;">Craft Video Upload</h4> 
 </div>
 @if(session('success'))
 						<div class="alert alert-success">
@@ -95,16 +95,18 @@
            cursor: pointer; 
            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
            transition: all 0.3s ease;">
-    Phase 1
-  </button>  
+    Phase 2
+  </button> 
 
 </div>
 
   <!-- Right side content -->
-   <!-- Phase 1 -->
+
+
+  <!-- Phase 2 -->
   <div class="tab-content active" id="tab1">
-    <h3>UNVEILING THE CREATIVES</h3>
-    <p>        
+    <h3>UNVEILING THE CRAFT</h3>
+    <p>   
     <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
         <div class="container-fluid">
             <!-- Important Note -->
@@ -115,171 +117,62 @@
             </p>
 
             <p style="color: black;">
-              
-                <div class="alert alert-info shadow-sm border-0 rounded-3 p-4 mb-4">
-  <h5 class="fw-bold text-primary mb-2">
-    <i class="fa-solid fa-info-circle me-2"></i> Instructions
-  </h5>
-  <p>
-    Contestants must create a 60-second video that combines personal storytelling with a display of creativity or inspiration. 
-                This ensures the audience sees not just what they can do, but who they are and why their story matters.
-  </p>
-  <p class="mb-2">
-    <strong>Select the option below that resonates with you, and let your video reflect its message.</strong>
-  </p>
-  <p class="mb-2">
-    Once your video is ready, upload it on at least <strong>three social media platforms</strong> — 
-    Facebook, X (Twitter), Instagram, and TikTok — and tag us <strong>@nyfewofficial</strong>.
-  </p>
-  <p class="mb-2">
-    After posting, click on <span class="fw-bold text-primary">Submit Video</span> to upload a copy of your video along with the links to your posts.
-  </p>
-  <p class="mb-0 text-danger">
-    <i class="fa-solid fa-triangle-exclamation me-1"></i> 
-    Failure to follow these instructions may result in disqualification.
-  </p>
-   <p style="color: black;">If you have any questions, feel free to reach out to our support team. | <a href="mailto:projectmakeme@nyfew.com.ng" class="text-decoration-none text-primary">
-                                projectmakeme@nyfew.com.ng
-                            </a></p>
-   
-<br>
-  <!-- Button to trigger modal -->
-    <button class="btn btn-sm btn-outline-primary" id="scrollToFormBtn">
-  <i class="fa-solid fa-upload me-1"></i> Submit Video
-</button>
-</div>
- 
-
+                As part of your application process, you're required to upload a <strong>Craft Video</strong> that demonstrates your talent and area of expertise.
+                Please follow the guidelines below carefully:
             </p>
 
             <hr>
-       <!-- Option 1 -->
-<div class="card shadow-lg border-0 rounded-3 p-4 mb-4">
-  <div class="d-flex align-items-center justify-content-between mb-3">
-    <div class="d-flex align-items-center">
-      <i class="fa-solid fa-bolt text-warning me-2 fs-4"></i>
-      <h5 class="text-primary fw-bold mb-0">Option 1: Day One Energy</h5>
-    </div>
-   
-  </div>
 
-  <p class="text-muted mb-3">
-    <i class="fa-solid fa-bullseye text-danger me-2"></i>
-    <strong>Focus:</strong> Sharing your personal journey and experiences.
-  </p>
+            <h5 class="text-primary">🛠️ For Creatives (Fashion Designing, Photography, Shoe Making, Hair Styling and Makeup Artistry.):</h5>
+            <ul>
+                <li>Record a <strong>video showing how you make a product</strong> from <em>start to finish</em>.</li>
+                <li>Show your <strong>skills, creativity, and entire process</strong>.</li>
+                <li>This is your opportunity to showcase your craft and stand out!</li>
+            </ul>
 
-  <ul class="list-unstyled ps-3">
-    <li class="mb-2">
-      <i class="fa-solid fa-map-marker-alt text-success me-2"></i>
-      Talk about where you are from and the environment that shaped you.
-    </li>
-    <li class="mb-2">
-      <i class="fa-solid fa-child text-info me-2"></i>
-      Highlight a defining childhood memory, family influence, or turning point.
-    </li>
-    <li class="mb-2">
-      <i class="fa-solid fa-lightbulb text-warning me-2"></i>
-      Share the moment that made you realize your passion or dream.
-    </li>
-    <li class="mb-2">
-      <i class="fa-solid fa-heart text-danger me-2"></i>
-      Keep it raw and authentic.
-    </li>
-  </ul>
+            <h5 class="text-primary mt-4">💃 For Models Only:</h5>
+            <ul>
+                <li>Upload a <strong>catwalk video</strong> that highlights your poise, confidence, and presentation skills.</li>
+            </ul>
 
-  <div class="mt-3">
-    <i class="fa-solid fa-hashtag text-primary me-2"></i>
-    <strong>Hashtags:</strong>
-    <span class="badge bg-light text-dark me-1">#Day1energy</span>
-    <span class="badge bg-light text-dark me-1">#MyJourney</span>
-    <span class="badge bg-light text-dark me-1">#NYFEWProjectMakeMe</span>
-    <span class="badge bg-light text-dark">#InspirationThroughStories</span>
-  </div>
-</div>
-<!-- Option 1 end -->
             <hr>
 
-            <!-- Option 2 -->
-<div class="card shadow-lg border-0 rounded-3 p-4 mb-4">
-  <div class="d-flex align-items-center mb-3">
-    <i class="fa-solid fa-road text-dark me-2 fs-4"></i>
-    <h5 class="text-primary fw-bold mb-0">Option 2: “Street No Break Me”</h5>
-  </div>
+            <h5 class="text-success">📲 Social Media Requirement:</h5>
+            <ul>
+                <li>Post your video on <strong>all your social media platforms</strong>.</li>
+                <li>Tag us on all our socials using the following handles:
+                    <ul>
+                        <li><i class="fab fa-facebook"></i> Facebook: 
+                            <a href="https://facebook.com/nyfewofficial" target="_blank">@nyfewofficial</a>
+                        </li>
+                        <li><i class="fab fa-twitter"></i> Twitter: 
+                            <a href="https://twitter.com/nyfewofficial" target="_blank">@nyfewofficial</a>
+                        </li>
+                        <li><i class="fab fa-instagram"></i> Instagram: 
+                            <a href="https://instagram.com/nyfewofficial" target="_blank">@nyfewofficial</a>
+                        </li>
+                        <li><i class="fab fa-snapchat"></i> Snapchat: 
+                            <a href="https://snapchat.com/nyfewofficial" target="_blank">@nyfewofficial</a>
+                        </li>
+                        <li><i class="fab fa-tiktok"></i> TikTok: 
+                            <a href="https://tiktok.com/nyfewofficial" target="_blank">@nyfewofficial</a>
+                        </li>
+                    </ul>
 
-  <p class="text-muted mb-3">
-    <i class="fa-solid fa-bullseye text-danger me-2"></i>
-    <strong>Focus:</strong> Demonstrating resilience and how you turned challenges into opportunities.
-  </p>
+                </li>
+            </ul>
 
-  <ul class="list-unstyled ps-3">
-    <li class="mb-2">
-      <i class="fa-solid fa-mountain text-secondary me-2"></i>
-      Identify one major challenge you faced (e.g., financial struggles, rejection, self-doubt, personal loss).
-    </li>
-    <li class="mb-2">
-      <i class="fa-solid fa-hand-holding-heart text-success me-2"></i>
-      Share how you overcame it and what it taught you.
-    </li>
-    <li class="mb-2">
-      <i class="fa-solid fa-sun text-warning me-2"></i>
-      End with a positive note: the strength, lesson, or mindset you gained.
-    </li>
-    <li class="mb-2">
-      <i class="fa-solid fa-users text-primary me-2"></i>
-      Make the audience feel motivated by your survival and growth.
-    </li>
-  </ul>
+            <p class="mt-4" style="color: black;">
+                This step is crucial for your application. Be bold, be authentic, and let your talent shine through!
+            </p>
 
-  <div class="mt-3">
-    <i class="fa-solid fa-hashtag text-primary me-2"></i>
-    <strong>Hashtags:</strong>
-    <span class="badge bg-light text-dark me-1">#Streetnobreakme</span>
-    <span class="badge bg-light text-dark me-1">#ResilientDreamer</span>
-    <span class="badge bg-light text-dark me-1">#NYFEWProjectMakeMe</span>
-    <span class="badge bg-light text-dark">#InspiringStories</span>
-  </div>
-</div>
+            <p style="color: black;">If you have any questions, feel free to reach out to our support team. | <a href="mailto:projectmakeme@nyfew.com.ng" class="text-decoration-none text-primary">
+                                projectmakeme@nyfew.com.ng
+                            </a></p>
+        </div>
 
-            <!-- Option 2 end -->
-            <hr>
-<!-- Option 3 -->
-<div class="card shadow-lg border-0 rounded-3 p-4 mb-4">
-  <div class="d-flex align-items-center mb-3">
-    <i class="fa-solid fa-hourglass-half text-info me-2 fs-4"></i>
-    <h5 class="text-primary fw-bold mb-0">Option 3: “Future Me Loading”</h5>
-  </div>
-
-  <p class="text-muted mb-3">
-    <i class="fa-solid fa-bullseye text-danger me-2"></i>
-    <strong>Focus:</strong> Paint a picture of your future and why it matters.
-  </p>
-
-  <ul class="list-unstyled ps-3">
-    <li class="mb-2">
-      <i class="fa-solid fa-rocket text-warning me-2"></i>
-      Describe the dream you are chasing (career, impact, personal growth).
-    </li>
-    <li class="mb-2">
-      <i class="fa-solid fa-people-group text-success me-2"></i>
-      Explain why this dream is important, not just to you, but to others (community, family, society).
-    </li>
-    <li class="mb-2">
-      <i class="fa-solid fa-book-open text-primary me-2"></i>
-      Use storytelling + passion: speak as though you already believe it will happen.
-    </li>
-  </ul>
-
-  <div class="mt-3">
-    <i class="fa-solid fa-hashtag text-primary me-2"></i>
-    <strong>Hashtags:</strong>
-    <span class="badge bg-light text-dark me-1">#Futuremeloading</span>
-    <span class="badge bg-light text-dark me-1">#NYFEWProjectMakeMe</span>
-    <span class="badge bg-light text-dark">#InspiringStories</span>
-  </div>
-</div>
-<!-- Option 3 end -->       
-<hr>
-<!-- Form           -->
+            
+            <!-- Form           -->
 <div id ="UploadVideoForm"class="card shadow-lg border-0 rounded-3 p-4 mb-4">
     <div class="modal-header">
         <h5 class="modal-title fw-bold" id="option1ModalLabel">
@@ -288,24 +181,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <form id="submitVideoForm" action="{{ route('user.updateStage2', ['id' => auth()->user()->id]) }}" method="POST" enctype="multipart/form-data" >
+      <form id="submitVideoForm" action="{{ route('user.updateStage2-p2', ['id' => auth()->user()->id]) }}" method="POST" enctype="multipart/form-data" >
         @csrf
         @method('PUT')
         <div class="modal-body">
           
-          <!-- Video Links -->
-           <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="fbLink" class="form-label">Creative Option Selected</label>
-              <select name="videoOption" id="videoOption" class="form-control" required>
-                <option value="Day One Energy">Day One Energy</option>
-                <option value="Street No Break Me">Street No Break Me</option>
-                <option value="Future Me Loading">Future Me Loading</option>
-              </select>
-              @error('fbLink') <small class="text-danger">{{ $message }}</small> @enderror
-            </div>
-            
-          </div>
+          <!-- Video Links -->           
 
           <div class="row mb-3">
             <div class="col-md-6">
@@ -355,7 +236,7 @@
       </form>
 </div>
     <!-- Form end -->
-        </div> 
+
         </div>
     </div>
 
@@ -365,16 +246,10 @@
     <button type="button" class="btn btn-danger waves-effect" onclick="window.location.href='{{ route('user-dashboard') }}'">Close</button>&nbsp;
         <!-- <button type="submit" class="btn btn-primary">Save Changes</button> -->
     </div>
-
 </p>
-  </div>
-  <!-- Phase 1 end -->
-
-  
+<!-- Phase 2 end -->
   </div>
 </div>
-
-
                    
                 </div>
             </div>

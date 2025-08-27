@@ -16,8 +16,23 @@ class Application extends Model
         'comment',
         'status',
         'content',
+        'content1',
         'file_size',
+        'file_size1',
         'reviewed_at',
+        'video_option',
+        'p1_link1',
+        'p1_link2',
+        'p1_link3',
+        'p1_link4',
+        'p2_link1',
+        'p2_link2',
+        'p2_link3',
+        'p2_link4',
+        'p1',
+        'p2',
+
+
     ];
 
     public function user()

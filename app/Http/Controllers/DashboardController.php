@@ -27,6 +27,7 @@ class DashboardController extends Controller
         ->where('applications.stage', 1)
         ->where('applications.status', 'Approved')
         ->where('users.user_type', 2)
+        ->whereIn('users.applicant_type', ['OLD', 'NEW'])
         ->groupBy('users.interest')
         ->orderBy('users.interest')
         ->get();
@@ -113,6 +114,7 @@ class DashboardController extends Controller
             $user->if_yes_qst2 = $validatedData['ifyesqst2'] ?? 'N/A';
             $user->interest_fashion = $validatedData['interest_fashion'] ?? 'N/A';
             $user->current_stage = 2;
+            $user->applicant_type = 'NEW';
     
             $user->save();
     
@@ -146,12 +148,44 @@ class DashboardController extends Controller
     
     public function stage2Edit($id)
     {
-        $startDate = "2025-08-25";
+        $startDate = "2025-08-27";
         $dueDate = "2025-09-30";
         $currentDate = date('Y-m-d');
+        
+        $user = User::findOrFail($id);
+        $userEmail = $user->email;
+        
+        if ($userEmail == 'emmakinyooye@gmail.com'){
+            // Retrieve the stage 2 application if it exists
+        $application = Application::where('user_id', $id)
+            ->where('stage', 2)
+            ->first();
+
+        if ($application) {
+            // Check the application status
+            if ($application->status == 'Pending Review') {
+                return redirect()->back()->with('error', 'Your video is still under review, you cannot upload yet.');
+            } elseif ($application->status == 'Approved') {
+                return redirect()->back()->with('error', 'Your video has been approved, you can only view or proceed to the next stage.');
+            }
+
+            // If status is Not Approved or Reviewed, allow access to stage 2 form
+        } else {
+            // Create a new application for stage 2 if it doesn't exist
+            Application::create([
+                'user_id' => $id,
+                'status' => 'Not Approved',
+                'comment' => 'Video has not been Uploaded.',
+                'stage' => 2,
+            ]);
+        }
+
+        return view('layout.stage2', compact('user'));
+            
+        }
 
         if ($currentDate < $startDate) {
-            return redirect()->back()->with('error', 'Entries for stage 2 have not commenced, check back.');
+            return redirect()->back()->with('error', 'Entries for stage 2 have not commenced, please check back.');
         } elseif ($currentDate > $dueDate) {
             return redirect()->back()->with('error', 'Registration Closed.');
         }
@@ -185,62 +219,235 @@ class DashboardController extends Controller
         return view('layout.stage2', compact('user'));
     }
 
+    public function stage2P2Edit($id)
+    {
+        $startDate = "2025-08-27";
+        $dueDate = "2025-09-30";
+        $currentDate = date('Y-m-d');
+        
+        $user = User::findOrFail($id);
+        $userEmail = $user->email;
+        
+        if ($userEmail == 'emmakinyooye@gmail.com'){
+            // Retrieve the stage 2 application if it exists
+        $application = Application::where('user_id', $id)
+            ->where('stage', 2)
+            ->first();
+
+        if ($application) {
+            // Check the application status
+            if ($application->status1 == 'Pending Review') {
+                return redirect()->back()->with('error', 'Your video is still under review, you cannot upload yet.');
+            } elseif ($application->status1 == 'Approved') {
+                return redirect()->back()->with('error', 'Your video has been approved, you can only view or proceed to the next stage.');
+            }
+
+            // If status is Not Approved or Reviewed, allow access to stage 2 form
+        } else {
+            // Create a new application for stage 2 if it doesn't exist
+            Application::create([
+                'user_id' => $id,
+                'status1' => 'Not Approved',
+                'comment' => 'Video has not been Uploaded.',
+                'stage' => 2,
+            ]);
+        }
+
+        return view('layout.stage2_p2', compact('user'));
+            
+        }
+
+        if ($currentDate < $startDate) {
+            return redirect()->back()->with('error', 'Entries for stage 2 have not commenced, please check back.');
+        } elseif ($currentDate > $dueDate) {
+            return redirect()->back()->with('error', 'Registration Closed.');
+        }
+
+        $user = User::findOrFail($id);
+
+        // Retrieve the stage 2 application if it exists
+        $application = Application::where('user_id', $id)
+            ->where('stage', 2)
+            ->first();
+
+        if ($application) {
+            // Check the application status
+            if ($application->status1 == 'Pending Review') {
+                return redirect()->back()->with('error', 'Your video is still under review, you cannot upload yet.');
+            } elseif ($application->status1 == 'Approved') {
+                return redirect()->back()->with('error', 'Your video has been approved, you can only view or proceed to the next stage.');
+            }
+
+            // If status is Not Approved or Reviewed, allow access to stage 2 form
+        } else {
+            // Create a new application for stage 2 if it doesn't exist
+            Application::create([
+                'user_id' => $id,
+                'status1' => 'Not Approved',
+                'comment' => 'Video has not been Uploaded.',
+                'stage' => 2,
+            ]);
+        }
+
+        return view('layout.stage2_p2', compact('user'));
+    }
+
+
 
     public function updateStage2(Request $request, $id)
     {
+        // Validate form input
         $request->validate([
-            'videoFile' => 'required|mimes:mp4,mov,avi,wmv|max:51200', // 50MB max
+            'videoOption' => 'required|string',
+            'fbLink' => 'nullable|url',
+            'twLink' => 'nullable|url',
+            'inLink' => 'nullable|url',
+            'ttLink' => 'nullable|url',
+            'videoFile' => 'required|mimes:mp4,mov,avi,wmv|max:20480', // 20MB max
         ]);
+
+        // Check that at least 3 links are provided
+        $links = [
+            $request->fbLink,
+            $request->twLink,
+            $request->inLink,
+            $request->ttLink,
+        ];
+
+        $validLinks = array_filter($links, function ($link) {
+            return !empty($link);
+        });
+
+        if (count($validLinks) < 3) {
+            return back()->with('error', 'Please provide at least 3 valid social media post links.');
+        }
 
         $user = auth()->user();
         $application = Application::where('user_id', $user->id)
-            ->where('stage', 2) // Only fetch stage 2 record
+            ->where('stage', 2)
             ->first();
 
-        // Check existing status and block/allow accordingly
+        // Handle status logic
         if ($application) {
             switch ($application->status) {
                 case 'Pending Review':
-                    return back()->with('error', 'Your video is under review. You cannot upload another at this time.');
+                    return back()->with('error', 'Your submission is under review. You cannot upload another at this time.');
                 case 'Approved':
-                    return back()->with('error', 'Your video has been approved. You can only view it, or proceed to the next stage.');
+                    return back()->with('error', 'Your submission has been approved. You can only view it, or proceed to the next stage.');
                 case 'Not approved':
-                    return back()->with('error', 'Your video submission is not approved. You can try again in our next edition. Wishing you all the best.');
+                    return back()->with('error', 'Your submission is not approved. You can try again in our next edition.');
                 case 'Reviewed':
-                    // delete old file if it exists
                     if ($application->content) {
-                        $oldFile = public_path('video/' . $application->content);
+                        $oldFile = public_path('video/phase1/' . $application->content);
                         if (file_exists($oldFile)) {
-                            unlink($oldFile); // delete the old video
+                            unlink($oldFile);
                         }
                     }
                     break;
             }
         }
 
-        // Check if the user is allowed to upload (either not under review or approved for upload)
-        if ($request->hasFile('videoFile')) {
-            $video = $request->file('videoFile');
-            $fileSize = round($video->getSize() / 1048576, 2); // Get size before moving
-            $filename = time() . '_' . $video->getClientOriginalName();
-            $video->move(public_path('video'), $filename);
+        // Handle video upload
+        $video = $request->file('videoFile');
+        $fileSize = round($video->getSize() / 1048576, 2);
+        $filename = time() . '_' . $video->getClientOriginalName();
+        $video->move(public_path('video/phase1/'), $filename);
 
-            // Update or create the stage 2 record
-            Application::updateOrCreate(
-                ['user_id' => $user->id, 'stage' => 2], // Ensure it’s for stage 2
-                [
-                    'comment' => 'Craft video uploaded',
-                    'content' => $filename,
-                    'file_size' => $fileSize . ' MB',
-                    'status' => 'Pending Review', // Status set to pending
-                ]
-            );
+        // Save or update application
+        Application::updateOrCreate(
+            ['user_id' => $user->id, 'stage' => 2],
+            [
+                'comment' => 'Video uploaded with creative option: ' . $request->videoOption,
+                'content' => $filename,
+                'file_size' => $fileSize . ' MB',
+                'status' => 'Pending Review',
+                'video_option' => $request->videoOption,
+                'p1_link1' => $request->fbLink,
+                'p1_link2' => $request->twLink,
+                'p1_link3' => $request->inLink,
+                'p1_link4' => $request->ttLink,
+            ]
+        );
 
-            return redirect()->route('user-dashboard')->with('success', 'Video uploaded successfully and is now pending review.');
+        return redirect()->route('user-dashboard')->with('success', 'Submission for Stage2-Phase1 uploaded successfully and is now pending review.');
+    }
+
+    public function updateStage2P2(Request $request, $id)
+    {
+        // Validate form input
+        $request->validate([
+            'fbLink' => 'nullable|url',
+            'twLink' => 'nullable|url',
+            'inLink' => 'nullable|url',
+            'ttLink' => 'nullable|url',
+            'videoFile' => 'required|mimes:mp4,mov,avi,wmv|max:20480', // 20MB max
+        ]);
+
+        // Check that at least 3 links are provided
+        $links = [
+            $request->fbLink,
+            $request->twLink,
+            $request->inLink,
+            $request->ttLink,
+        ];
+
+        $validLinks = array_filter($links, function ($link) {
+            return !empty($link);
+        });
+
+        if (count($validLinks) < 3) {
+            return back()->with('error', 'Please provide at least 3 valid social media post links.');
         }
 
-        return back()->with('error', 'Please upload a valid video file.');
+        $user = auth()->user();
+        $application = Application::where('user_id', $user->id)
+            ->where('stage', 2)
+            ->first();
+
+        // Handle status logic
+        if ($application) {
+            switch ($application->status1) {
+                case 'Pending Review':
+                    return back()->with('error', 'Your submission is under review. You cannot upload another at this time.');
+                case 'Approved':
+                    return back()->with('error', 'Your submission has been approved. You can only view it, or proceed to the next stage.');
+                case 'Not approved':
+                    return back()->with('error', 'Your submission is not approved. You can try again in our next edition.');
+                case 'Reviewed':
+                    if ($application->content) {
+                        $oldFile = public_path('video/phase2/' . $application->content1);
+                        if (file_exists($oldFile)) {
+                            unlink($oldFile);
+                        }
+                    }
+                    break;
+            }
+        }
+
+        // Handle video upload
+        $video = $request->file('videoFile');
+        $fileSize = round($video->getSize() / 1048576, 2);
+        $filename = time() . '_' . $video->getClientOriginalName();
+        $video->move(public_path('video/phase2/'), $filename);
+
+        // Save or update application
+        Application::updateOrCreate(
+            ['user_id' => $user->id, 'stage' => 2],
+            [
+                'comment' => 'Video uploaded with creative option: ' . $request->videoOption,
+                'content1' => $filename,
+                'file_size1' => $fileSize . ' MB',
+                'status1' => 'Pending Review',
+                'p2_link1' => $request->fbLink,
+                'p2_link2' => $request->twLink,
+                'p2_link3' => $request->inLink,
+                'p2_link4' => $request->ttLink,
+            ]
+        );
+
+        return redirect()->route('user-dashboard')->with('success', 'Submission for Stage2-Phase2 uploaded successfully and is now pending review.');
     }
+
 
 
     public function fetchStageData($stage)

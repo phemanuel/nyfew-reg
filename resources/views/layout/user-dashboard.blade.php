@@ -359,18 +359,28 @@
                                             @if($d->status == 'Not Approved')
                                                 <a href="{{ route('stage1', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-deep-gold">Update</a>
                                             @elseif($d->status == 'Approved')
-                                                <a href="{{ route('stage1', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-deep-gold" data-bs-toggle="modal" data-bs-target="#viewVideoModal">View</a>
+                                                <a href="{{ route('stage1', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-deep-gold">View</a>
                                             @endif
                                         @elseif($d->stage == 2)
                                             <!-- Stage 2 - Video upload actions -->
                                             @if($d->status == 'Not Approved')
-                                                <a href="{{ route('stage2', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-deep-gold">Update</a>
+                                                <a href="{{ route('stage2', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-deep-gold">Update Phase1</a>
+                                                                                            
                                             @elseif($d->status == 'Pending Review')
+                                                <span class="btn btn-sm btn-danger disabled">Under Review</span>
+                                            @elseif($d->status1 == 'Pending Review')
                                                 <span class="btn btn-sm btn-danger disabled">Under Review</span>
                                             @elseif($d->status == 'Reviewed')
                                                 <a href="{{ route('stage2', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-deep-gold">Re-Upload</a>
+                                            @elseif($d->status1 == 'Reviewed')
+                                                <a href="{{ route('stage2', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-deep-gold">Re-Upload</a>
                                             @elseif($d->status == 'Approved')
-                                                <button type="button" class="btn btn-sm btn-deep-gold stage-action-btn" data-toggle="modal" data-target="#viewVideoModal">View</button>
+                                                <!-- <span class="btn btn-sm btn-success disabled">Phase1 Approved</span> -->
+                                                <!-- <button type="button" class="btn btn-sm btn-deep-gold stage-action-btn" data-toggle="modal" data-target="#viewVideoModal">View </button> -->
+                                                <a href="{{ route('stage2-p2', ['id' => auth()->user()->id]) }}" class="btn btn-sm btn-deep-gold">Update Phase2</a>
+                                            @elseif($d->status1 == 'Approved')
+                                                <span class="btn btn-sm btn-success disabled">Approved</span>
+                                                
                                             @endif
                                         @elseif($d->stage == 3)
                                             <!-- Stage 3 - Business Pitch actions -->
@@ -387,15 +397,23 @@
                                     </td>
                                     <td>{{ $d->stage }}</td>
                                     <td>{{ $d->comment }}</td>
-                                    <td><span class="badge badge-info">{{ $d->status }}</span></td>
+                                    @if($d->stage == 1)
+                                    <td><span class="badge badge-info">{{ $d->status }} </span></td>
+                                    @elseif($d->stage == 2)
+                                    <td><span class="badge badge-info">Phase1-{{ $d->status }} </span> |
+                                    <span class="badge badge-info">Phase2-{{ $d->status1 }}</span>
+                                </td>
+                                    @else
+                                    <td><span class="badge badge-info">{{ $d->status }} </span></td>
+                                    @endif                                    
                                     <td>{{ $d->content ?? 'No content available' }}</td>
 
                                     @if($d->stage == 1)
-                                        <td>{{ \Carbon\Carbon::parse($d->due_date ?? '2025-05-31')->format('d M Y') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($d->due_date ?? '2025-08-20')->format('d M Y') }}</td>
                                     @elseif($d->stage == 2)
-                                        <td>{{ \Carbon\Carbon::parse($d->due_date ?? '2025-07-13')->format('d M Y') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($d->due_date ?? '2025-09-30')->format('d M Y') }}</td>
                                     @elseif($d->stage == 3)
-                                        <td>{{ \Carbon\Carbon::parse($d->due_date ?? '2025-08-16')->format('d M Y') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($d->due_date ?? '2025-10-18')->format('d M Y') }}</td>
                                     @endif
                                 </tr>
                             @endforeach

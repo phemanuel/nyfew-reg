@@ -30,7 +30,7 @@ class AuthController extends Controller
 
     public  function signUp()
     {
-        $dueDate = "2025-08-18";
+        $dueDate = "2025-08-20";
         $regDate = "2025-07-01";
         $currentDate = date('Y-m-d');
 
@@ -39,10 +39,34 @@ class AuthController extends Controller
         }
         
         if($currentDate > $dueDate){
-            return redirect()->back()->with('error', 'Registration Closed.');
+            return redirect()->route('signin')->with('error', 'Registration Closed.');
         }
 
         return view('auth.auth-signup');
+    }
+    
+    public  function waitList()
+    {
+        // $dueDate = "2025-08-20";
+        // $regDate = "2025-07-01";
+        // $currentDate = date('Y-m-d');
+
+        // if($currentDate < $regDate){
+        //     return redirect()->back()->with('error', 'Registration has not started, please check back soon.');
+        // }
+        
+        // if($currentDate > $dueDate){
+        //     return redirect()->route('signin')->with('error', 'Registration Closed.');
+        // }
+
+        return view('auth.wait-list');
+    }
+    
+    public  function waitListInfo()
+    {
+        
+
+        return view('auth.wait-list-success');
     }
     
     public function passwordUpdate()
@@ -102,7 +126,6 @@ class AuthController extends Controller
                 'current_stage' => 1,
                 'user_type' => 2,
                 'login_attempts' => 0,
-                'applicant_type' => 'NEW',
                 'reg_date' => now(),
             ]);
 
@@ -122,6 +145,63 @@ class AuthController extends Controller
 
             //return redirect()->route('login')->with('success', 'Account created successful.');
             return redirect('send-mail');
+        } catch (ValidationException $e) {
+            // Validation failed. Redirect back with validation errors.
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (Exception $e) {
+            // Log the error
+            Log::error('Error during user registration: ' . $e->getMessage());
+
+            return redirect()->back()->with('error', 'An error occurred during registration. Please try again.');
+        }
+    }
+    
+    public function waitListAction(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([                
+                'email' => 'required|email|unique:users',
+                'phone_no' => 'required',
+                'password' => 'required|string|min:8|confirmed',
+            ], [
+                'password.confirmed' => 'The passwords do not match. Please try again.',
+            ]);
+
+            $email_token =Str::random(40);
+
+            // Get the user's preferred username            
+
+            $user = User::create([                
+                'email' => $validatedData['email'],
+                'mobile_no' => $validatedData['phone_no'],
+                'password' => Hash::make($validatedData['password']),                
+                'email_verified_status' => 0,
+                'remember_token' => $email_token,                             
+                'image' => 'blank.jpg',
+                'user_status' => 1,
+                'current_stage' => 1,
+                'user_type' => 2,
+                'login_attempts' => 0,
+                'applicant_type' => 'WAITLIST',
+                'reg_date' => now(),
+            ]);
+
+            Application::create([
+                'user_id' => $user->id,
+                'status' => 'Not Approved',
+                'comment' => 'Not Completed',
+                'stage' => 1,
+            ]);
+
+            // $email_message = "We have sent instructions to verify your email, kindly follow instructions to continue, 
+            // please check both your inbox and spam folder.";
+            // session(['email' => $validatedData['email']]);
+            // session(['full_name' => 'User']);
+            // session(['email_token' => $email_token]);
+            // session(['email_message' => $email_message]);
+
+            return redirect()->route('wait-list-info');
+            // return redirect('send-mail');
         } catch (ValidationException $e) {
             // Validation failed. Redirect back with validation errors.
             return redirect()->back()->withErrors($e->errors())->withInput();
@@ -171,15 +251,27 @@ class AuthController extends Controller
                 $request->session()->regenerate(); 
                 // $intendedUrl = session('url.intended', '/');
                 // return redirect()->intended($intendedUrl);
-                return redirect()->route('user-dashboard');
+                if($user->applicant_type == 'WAITLIST'){
+                    return redirect()->back()->with('error', 'You have joined the waitlist already, kindly wait for a message from our team.');
+                }
+                else{
+                     return redirect()->route('user-dashboard');
+                }
+               
                 // return response()->json([
                 //     'status' => 'logged in',
                 // ]);
             } else {                    
                 // Email is not verified, return a flash message
-                //Auth::logout(); // Log the user out since the email is not verified                    
-                $email_address = $request->email;         
+                //Auth::logout(); // Log the user out since the email is not verified  
+                if($user->applicant_type == 'WAITLIST'){
+                    return redirect()->back()->with('error', 'You have joined the waitlist already, kindly wait for a message from our team.');
+                }
+                else{
+                     $email_address = $request->email;         
                 return view('auth.email-not-verify', compact('email_address'));
+                }
+                
                  
             }
         } catch (ValidationException $e) {
