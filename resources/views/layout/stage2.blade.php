@@ -125,7 +125,7 @@
                 This ensures the audience sees not just what they can do, but who they are and why their story matters.
   </p>
   <p class="mb-2">
-    <strong>Select the option below that resonates with you, and let your video reflect its message.</strong>
+    <strong>Use the theme below , and let your video reflect its message.</strong>
   </p>
   <p class="mb-2">
     Once your video is ready, upload it on at least <strong>three social media platforms</strong> — 
@@ -139,7 +139,7 @@
     Failure to follow these instructions may result in disqualification.
   </p>
    <p style="color: black;">If you have any questions, feel free to reach out to our support team. | <a href="mailto:projectmakeme@nyfew.com.ng" class="text-decoration-none text-primary">
-                                projectmakeme@nyfew.com.ng
+                                support@nyfew.com.ng
                             </a></p>
    
 <br>
@@ -158,14 +158,15 @@
   <div class="d-flex align-items-center justify-content-between mb-3">
     <div class="d-flex align-items-center">
       <i class="fa-solid fa-bolt text-warning me-2 fs-4"></i>
-      <h5 class="text-primary fw-bold mb-0">Option 1: Day One Energy</h5>
+      <h5 class="text-primary fw-bold mb-0">Theme: Day One Energy</h5>
     </div>
    
   </div>
 
   <p class="text-muted mb-3">
     <i class="fa-solid fa-bullseye text-danger me-2"></i>
-    <strong>Focus:</strong> Sharing your personal journey and experiences.
+    <strong>Focus:</strong> Share your backstory. Where you
+started. What shaped you.
   </p>
 
   <ul class="list-unstyled ps-3">
@@ -190,17 +191,16 @@
   <div class="mt-3">
     <i class="fa-solid fa-hashtag text-primary me-2"></i>
     <strong>Hashtags:</strong>
-    <span class="badge bg-light text-dark me-1">#Day1energy</span>
-    <span class="badge bg-light text-dark me-1">#MyJourney</span>
-    <span class="badge bg-light text-dark me-1">#NYFEWProjectMakeMe</span>
-    <span class="badge bg-light text-dark">#InspirationThroughStories</span>
+    <span class="badge bg-light text-dark me-1">#ProjectMakeMe</span>
+    <span class="badge bg-light text-dark me-1"> #Unveilingthecreatives</span>
+    <span class="badge bg-light text-dark me-1">#NYFEW</span>
   </div>
 </div>
 <!-- Option 1 end -->
             <hr>
 
             <!-- Option 2 -->
-<div class="card shadow-lg border-0 rounded-3 p-4 mb-4">
+<!-- <div class="card shadow-lg border-0 rounded-3 p-4 mb-4">
   <div class="d-flex align-items-center mb-3">
     <i class="fa-solid fa-road text-dark me-2 fs-4"></i>
     <h5 class="text-primary fw-bold mb-0">Option 2: “Street No Break Me”</h5>
@@ -238,12 +238,12 @@
     <span class="badge bg-light text-dark me-1">#NYFEWProjectMakeMe</span>
     <span class="badge bg-light text-dark">#InspiringStories</span>
   </div>
-</div>
+</div> -->
 
             <!-- Option 2 end -->
-            <hr>
+            <!-- <hr> -->
 <!-- Option 3 -->
-<div class="card shadow-lg border-0 rounded-3 p-4 mb-4">
+<!-- <div class="card shadow-lg border-0 rounded-3 p-4 mb-4">
   <div class="d-flex align-items-center mb-3">
     <i class="fa-solid fa-hourglass-half text-info me-2 fs-4"></i>
     <h5 class="text-primary fw-bold mb-0">Option 3: “Future Me Loading”</h5>
@@ -276,9 +276,9 @@
     <span class="badge bg-light text-dark me-1">#NYFEWProjectMakeMe</span>
     <span class="badge bg-light text-dark">#InspiringStories</span>
   </div>
-</div>
+</div> -->
 <!-- Option 3 end -->       
-<hr>
+<!-- <hr> -->
 <!-- Form           -->
 <div id ="UploadVideoForm"class="card shadow-lg border-0 rounded-3 p-4 mb-4">
     <div class="modal-header">
@@ -296,11 +296,11 @@
           <!-- Video Links -->
            <div class="row mb-3">
             <div class="col-md-6">
-              <label for="fbLink" class="form-label">Creative Option Selected</label>
+              <label for="fbLink" class="form-label">Theme</label> 
               <select name="videoOption" id="videoOption" class="form-control" required>
                 <option value="Day One Energy">Day One Energy</option>
-                <option value="Street No Break Me">Street No Break Me</option>
-                <option value="Future Me Loading">Future Me Loading</option>
+                <!-- <option value="Street No Break Me">Street No Break Me</option>
+                <option value="Future Me Loading">Future Me Loading</option> -->
               </select>
               @error('fbLink') <small class="text-danger">{{ $message }}</small> @enderror
             </div>

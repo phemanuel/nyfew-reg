@@ -453,7 +453,8 @@ class DashboardController extends Controller
     public function fetchStageData($stage)
     {
         // Fetch users based on selected stage
-        $stage1 = \App\Models\Application::with('user')
+        if($stage == 1){
+            $stage1 = \App\Models\Application::with('user')
             ->where('stage', $stage)
             ->orderBy('status', 'asc')
             ->paginate(10);
@@ -462,6 +463,20 @@ class DashboardController extends Controller
         $html = view('partials.stage-table', compact('stage1'))->render();
 
         return response()->json(['html' => $html]);
+        }
+        elseif($stage == 2){
+            $stage1 = \App\Models\Application::with('user')
+            ->where('stage', $stage)
+            ->whereNotNull('content')      // Not NULL
+            ->where('content', '<>', '')
+            ->orderBy('status', 'asc')
+            ->paginate(10);
+
+        // Render the table as HTML and return as a response
+        $html = view('partials.stage-table', compact('stage1'))->render();
+
+        return response()->json(['html' => $html]);
+        }
     }
 
     public function videoReview(Request $request)
